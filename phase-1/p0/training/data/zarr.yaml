@@ -1,0 +1,66 @@
+format: zarr
+# Time frequency requested from dataset
+frequency: 6h
+# Time step of model (must be multiple of frequency)
+timestep: 6h
+
+# features that are not part of the forecast state
+# but are used as forcing to generate the forecast state
+forcing:
+  - cos_latitude
+  - sin_latitude
+  - cos_longitude
+  - sin_longitude
+  - cos_julian_day
+  - sin_julian_day
+  - cos_local_time
+  - sin_local_time
+  - cos_solar_zenith_angle
+  - land_sea_mask
+  - orography
+# features that are only part of the forecast state
+# but are not used as the input to the model
+diagnostic:
+  - total_precipitation_6hr
+remapped:
+
+normalizer:
+  default: mean-std
+  std:
+    - total_precipitation_6hr
+
+  min-max:
+  max:
+  none:
+    - cos_latitude
+    - sin_latitude
+    - cos_longitude
+    - sin_longitude
+    - cos_julian_day
+    - sin_julian_day
+    - cos_local_time
+    - sin_local_time
+    - cos_solar_zenith_angle
+    - land_sea_mask
+
+imputer:
+  default: none
+remapper:
+  default: none
+
+# processors including imputers and normalizers are applied in order of definition
+processors:
+  # example_imputer:
+  #   _target_: anemoi.models.preprocessing.imputer.InputImputer
+  #   _convert_: all
+  #   config: ${data.imputer}
+  normalizer:
+    _target_: anemoi.models.preprocessing.normalizer.InputNormalizer
+    config: ${data.normalizer}
+  # remapper:
+  #   _target_: anemoi.models.preprocessing.remapper.Remapper
+  #   _convert_: all
+  #   config: ${data.remapper}
+
+# Values set in the code
+num_features: null # number of features in the forecast state

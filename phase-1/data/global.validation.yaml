@@ -70,6 +70,7 @@ target:
     round_land_sea_mask: land_sea_mask
 
   forcings:
+    - cos_latitude
     - sin_latitude
     - cos_longitude
     - sin_longitude
