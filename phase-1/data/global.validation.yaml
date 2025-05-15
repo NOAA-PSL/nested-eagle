@@ -1,0 +1,89 @@
+mover:
+  name: mpidatamover
+
+directories:
+  zarr: ${SCRATCH}/nested-eagle/phase-1/data/global.validation.zarr
+  cache: ${SCRATCH}/nested-eagle/phase-1/data/cache/global-validation
+  logs: ${SCRATCH}/nested-eagle/phase-1/data/logs/global-validation
+
+source:
+  name: gcs_era5_1degree
+  uri: "gs://weatherbench2/datasets/era5/1959-2023_01_10-wb13-6h-1440x721_with_derived_variables.zarr"
+  time:
+    start: 2018-01-01T00
+    end: 2019-12-31T18
+    freq: 6h
+
+  variables:
+    - land_sea_mask
+    - geopotential_at_surface
+    - surface_pressure
+    - 10m_u_component_of_wind
+    - 10m_v_component_of_wind
+    - 2m_temperature
+    - total_precipitation_6hr
+    - total_column_water
+    - geopotential
+    - u_component_of_wind
+    - v_component_of_wind
+    - vertical_velocity
+    - temperature
+    - specific_humidity
+
+  levels:
+    - 100
+    - 150
+    - 200
+    - 250
+    - 300
+    - 400
+    - 500
+    - 600
+    - 700
+    - 850
+    - 925
+    - 1000
+
+  slices:
+    sel:
+      latitude: [89.9, -89.9]
+
+transforms:
+  divide:
+    geopotential_at_surface: 9.80665
+
+  horizontal_regrid:
+    target_grid_path: ${SCRATCH}/nested-eagle/phase-1/data/global_one_degree.nc
+    regridder_kwargs:
+      method: conservative
+      reuse_weights: True
+      filename: ${SCRATCH}/nested-eagle/phase-1/data/conservative_719x1440_180x360.nc
+
+  mappings:
+    round: land_sea_mask
+
+target:
+  name: anemoi
+  sort_channels_by_levels: True
+  rename:
+    geopotential_at_surface: orography
+    round_land_sea_mask: land_sea_mask
+
+  forcings:
+    - sin_latitude
+    - cos_longitude
+    - sin_longitude
+    - cos_julian_day
+    - sin_julian_day
+    - cos_local_time
+    - sin_local_time
+    - cos_solar_zenith_angle
+
+  chunks:
+    time: 1
+    variable: -1
+    ensemble: 1
+    cell: -1
+
+attrs:
+  description: "Created by ufs2arco"
