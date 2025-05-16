@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH -J nested-era5-data
-#SBATCH -o /pscratch/sd/t/timothys/nested-eagle/phase-2/data/slurm/preprocessing.%j.out
-#SBATCH -e /pscratch/sd/t/timothys/nested-eagle/phase-2/data/slurm/preprocessing.%j.err
+#SBATCH -o /pscratch/sd/t/timothys/nested-eagle/phase-1/data/slurm/preprocessing.%j.out
+#SBATCH -e /pscratch/sd/t/timothys/nested-eagle/phase-1/data/slurm/preprocessing.%j.err
 #SBATCH --nodes=8
 #SBATCH --ntasks-per-node=64
 #SBATCH --cpus-per-task=4
