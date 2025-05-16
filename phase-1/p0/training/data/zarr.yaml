@@ -28,9 +28,6 @@ normalizer:
   default: mean-std
   std:
     - total_precipitation_6hr
-
-  min-max:
-  max:
   none:
     - cos_latitude
     - sin_latitude

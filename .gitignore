@@ -1,7 +1,7 @@
 # Custom additions
 
 **/slurm/
-**/training/output/
+**/training/outputs/
 *.nc
 *.zarr
 

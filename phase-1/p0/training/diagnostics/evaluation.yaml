@@ -48,8 +48,8 @@ log:
     authentication: False
     log_model: False
     tracking_uri: "http://nid200356-hsn0:5000"
-    experiment_name: 'anemoi-debug'
-    project_name: 'nested-conus'
+    experiment_name: 'p0'
+    project_name: 'nested-eagle-phase-1'
     system: True
     terminal: True
     run_name: null # If set to null, the run name will be the a random UUID
