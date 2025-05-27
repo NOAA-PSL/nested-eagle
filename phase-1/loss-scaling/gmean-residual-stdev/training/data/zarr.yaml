@@ -25,14 +25,30 @@ diagnostic:
 remapped:
 
 normalizer:
-  default: gmean-residual-std
-  mean-std:
-    - land_sea_mask
+  default: mean-gmrstd
+  gmrstd:
+    - total_precipitation_6hr
+    - total_column_water
+    - specific_humidity_100
+    - specific_humidity_150
+    - specific_humidity_200
+    - specific_humidity_250
+    - specific_humidity_300
+    - specific_humidity_400
+    - specific_humidity_500
+    - specific_humidity_600
+    - specific_humidity_700
+    - specific_humidity_850
+    - specific_humidity_925
+    - specific_humidity_1000
+  max:
     - orography
+  none:
     - cos_latitude
     - sin_latitude
     - cos_longitude
     - sin_longitude
+    - land_sea_mask
 
 imputer:
   default: none

@@ -28,6 +28,21 @@ normalizer:
   default: mean-std
   std:
     - total_precipitation_6hr
+    - total_column_water
+    - specific_humidity_100
+    - specific_humidity_150
+    - specific_humidity_200
+    - specific_humidity_250
+    - specific_humidity_300
+    - specific_humidity_400
+    - specific_humidity_500
+    - specific_humidity_600
+    - specific_humidity_700
+    - specific_humidity_850
+    - specific_humidity_925
+    - specific_humidity_1000
+  max:
+    - orography
   none:
     - cos_latitude
     - sin_latitude
