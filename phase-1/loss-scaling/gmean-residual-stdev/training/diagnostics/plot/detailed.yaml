@@ -1,5 +1,5 @@
 asynchronous: True # Whether to plot asynchronously
-datashader: True # With 1 degree data, this one point per data looks ridiculous
+datashader: False # With 1 degree data, this one point per data looks ridiculous
 frequency: # Frequency of the plotting
   batch: 750
   epoch: 5

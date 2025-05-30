@@ -4,8 +4,8 @@ defaults:
 - datamodule: single
 - diagnostics: evaluation
 - hardware: slurm
-- graph: stretched_grid
-- model: graphtransformer
+- graph: encoder_decoder_only
+- model: transformer
 - training: default
 - _self_
 
@@ -13,45 +13,22 @@ defaults:
 config_validation: True
 
 dataloader:
-  dataset:
-    cutout:
-      - dataset: ${hardware.paths.data}/conus.training.zarr
-      #thinning: ???
-      - dataset: ${hardware.paths.data}/global.training.zarr
-    adjust: all
-    # No idea what this "min_distance_km" parameter should be,
-    # but for this setup it can't be zero, since the graph will
-    # try to put multiple nodes in the same place, or something
-    min_distance_km: 1
   batch_size:
-    # note that the batch_size is set locally, so
-    # global_batch_size = num_nodes * num_gpus_per_node * batch_size / num_gpus_per_model
     training: 1
     validation: 1
     test: 1
   training:
-    dataset:
-      cutout:
-        - dataset: ${hardware.paths.data}/conus.training.zarr
-        #thinning: ???
-        - dataset: ${hardware.paths.data}/global.training.zarr
-      adjust: all
-      min_distance_km: 1 #???
+    dataset: ${hardware.paths.data}/global.training.zarr
     start: 1979
     end: 2017
   validation:
-    dataset:
-      cutout:
-        - dataset: ${hardware.paths.data}/conus.validation.zarr
-        #thinning: ???
-        - dataset: ${hardware.paths.data}/global.validation.zarr
-      adjust: all
-      min_distance_km: 1 #???
+    dataset: ${hardware.paths.data}/global.validation.zarr
     start: 2018
     end: 2019
   test:
-    start: 2017
-    end: 2017
+    dataset: ${hardware.paths.data}/global.validation.zarr
+    start: 2018
+    end: 2019
 
 diagnostics:
   plot:
@@ -66,8 +43,7 @@ hardware:
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/phase-1/loss-scaling/gmean-residual-stdev/
     output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/phase-1/loss-scaling/gmean-residual-stdev/
   files:
-    dataset: conus.training.zarr
-    forcing_dataset: global.training.zarr
+    dataset: global.training.zarr
 
 model:
   num_channels: 128
@@ -75,13 +51,4 @@ model:
     num_layers: 8
 
 training:
-  node_loss_weights:
-    _target_: anemoi.training.losses.nodeweights.ReweightedGraphNodeAttribute
-    target_nodes: ${graph.data}
-    node_attribute: area_weight
-    scaled_attribute: cutout_mask
-    # Nipen et al used 0.33, but here I'll use 1/2 since:
-    # * it covers a bigger surface area
-    # * it is roughly half the number of grid points
-    weight_frac_of_total: .5 #???
-  max_steps: 10_000
+  max_steps: 1_000
