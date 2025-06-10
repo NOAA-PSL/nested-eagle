@@ -1,7 +1,7 @@
 # Loss Scaling Tests
 
-All these configurations are the same as p0, except for how the data are
-normalized.
+These are the global 1 degree versions, in order to simplify evaluation and make
+training cheaper.
 
 * `gmean-residual-stdev`: normalize using the temporal residual statistics,
   including geometric mean factor, as in ACE
@@ -14,5 +14,6 @@ normalized.
       different
     * here, and in anemoi default, 10m u and 10m v are weighted as 0.1, whereas
       AIFS gives the 0.5
+* `ones`: just make it all equal
 * `ensemble-spread`: use the standard deviation from an ensemble and normalize
   by these values
