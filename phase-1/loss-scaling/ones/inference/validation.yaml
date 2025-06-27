@@ -1,0 +1,8 @@
+checkpoint_path: ${SCRATCH}/nested-eagle/phase-1/loss-scaling/ones/checkpoint/9ec834aa-7c3a-4251-b00b-f60028783667/inference-last.ckpt
+lead_time: 240
+input_data_path: ${SCRATCH}/nested-eagle/phase-1/data/global.validation.zarr
+output_path: ${SCRATCH}/nested-eagle/phase-1/loss-scaling/ones/inference-validation/9ec834aa-7c3a-4251-b00b-f60028783667
+
+start_date: 2018-01-01T06
+end_date: 2018-12-31T18
+freq: 54h
