@@ -1,31 +1,41 @@
+# if you are just running 1 initialization, make start==end
 initializations_to_run:
-  start: "2022-02-01T12:00:00"
-  end: "2022-02-02T06:00:00"
+  start: "2023-03-01T00:00:00"
+  end: "2023-03-01T00:00:00"
   freq: "6h"
 
-# save out 1 lam file. you need it for getting conus points.
-path_to_static_lam: "lam.nc"
+# index at which the nested ds goes from LAM->global
+lam_index: 75749
 
-# path to your raw inference files.
-# should have naming convention "20180102T000000Z.nc"
-# current run_inference.py should save the files out with this naming convention
-raw_inference_files_base_path: "inference/transformer/nc"
+# path to raw inference files you want to post process
+raw_inference_files_base_path: "/pscratch/sd/m/mlpope/gfs_hrrr/nc"
 
-# as of right now, this is essentialy a flag for if you are using 3km HRRR or not.
-# goal is that this will eventually be more robust.
-# overall, this flag will tell the script to make x/y dimensions when creating a 2D grid.
-curvilinear: False
+# this next section helps us to make a LCC grid structured.
+# if not using LCC over CONUS, set to false and ignore lat/lon length.
+lcc_info:
+  lcc_flag: True
+  lat_length: 211
+  lon_length: 359
 
-# level variables in your ds
+# information about global portion of your grid.
+global_info:
+  res: 1
+  lat_min: 20.5
+  lon_min: 225.5
+  lat_max: 52.5
+  lon_max: 299.5
+
+# this next portion lists all variable info out so the script knows what variables to process.
+# can be helpful if you don't care about all variables or levels.
+# it will only process and save out what you list below.
 level_variables:
-  - specific_humidity
-  - geopotential
-  - temperature
-  - u_component_of_wind
-  - v_component_of_wind
-  - vertical_velocity
+  - q
+  - gh
+  - t
+  - u
+  - v
+  - w
 
-# levels you want processed in the final ds
 levels:
   - 100
   - 150
@@ -40,83 +50,84 @@ levels:
   - 925
   - 1000
 
-# vars you want in the final dataset
 vars_of_interest:
-  - 10m_u_component_of_wind
-  - 10m_v_component_of_wind
-  - 2m_temperature
-  - geopotential_100
-  - geopotential_150
-  - geopotential_200
-  - geopotential_250
-  - geopotential_300
-  - geopotential_400
-  - geopotential_500
-  - geopotential_600
-  - geopotential_700
-  - geopotential_850
-  - geopotential_925
-  - geopotential_1000
-  - specific_humidity_100
-  - specific_humidity_150
-  - specific_humidity_200
-  - specific_humidity_250
-  - specific_humidity_300
-  - specific_humidity_400
-  - specific_humidity_500
-  - specific_humidity_600
-  - specific_humidity_700
-  - specific_humidity_850
-  - specific_humidity_925
-  - specific_humidity_1000
-  - surface_pressure
-  - temperature_100
-  - temperature_150
-  - temperature_200
-  - temperature_250
-  - temperature_300
-  - temperature_400
-  - temperature_500
-  - temperature_600
-  - temperature_700
-  - temperature_850
-  - temperature_925
-  - temperature_1000
-  - total_column_water
-  - u_component_of_wind_100
-  - u_component_of_wind_150
-  - u_component_of_wind_200
-  - u_component_of_wind_250
-  - u_component_of_wind_300
-  - u_component_of_wind_400
-  - u_component_of_wind_500
-  - u_component_of_wind_600
-  - u_component_of_wind_700
-  - u_component_of_wind_850
-  - u_component_of_wind_925
-  - u_component_of_wind_1000
-  - v_component_of_wind_100
-  - v_component_of_wind_150
-  - v_component_of_wind_200
-  - v_component_of_wind_250
-  - v_component_of_wind_300
-  - v_component_of_wind_400
-  - v_component_of_wind_500
-  - v_component_of_wind_600
-  - v_component_of_wind_700
-  - v_component_of_wind_850
-  - v_component_of_wind_925
-  - v_component_of_wind_1000
-  - vertical_velocity_100
-  - vertical_velocity_150
-  - vertical_velocity_200
-  - vertical_velocity_250
-  - vertical_velocity_300
-  - vertical_velocity_400
-  - vertical_velocity_500
-  - vertical_velocity_600
-  - vertical_velocity_700
-  - vertical_velocity_850
-  - vertical_velocity_925
-  - vertical_velocity_1000
-  - total_precipitation_6hr
+  - gh_100
+  - gh_150
+  - gh_200
+  - gh_250
+  - gh_300
+  - gh_400
+  - gh_500
+  - gh_600
+  - gh_700
+  - gh_850
+  - gh_925
+  - gh_1000
+  - q_100
+  - q_150
+  - q_200
+  - q_250
+  - q_300
+  - q_400
+  - q_500
+  - q_600
+  - q_700
+  - q_850
+  - q_925
+  - q_1000
+  - sh2
+  - sp
+  - t_100
+  - t_150
+  - t_200
+  - t_250
+  - t_300
+  - t_400
+  - t_500
+  - t_600
+  - t_700
+  - t_850
+  - t_925
+  - t_1000
+  - t2m
+  - u_100
+  - u_150
+  - u_200
+  - u_250
+  - u_300
+  - u_400
+  - u_500
+  - u_600
+  - u_700
+  - u_850
+  - u_925
+  - u_1000
+  - u10
+  - v_100
+  - v_150
+  - v_200
+  - v_250
+  - v_300
+  - v_400
+  - v_500
+  - v_600
+  - v_700
+  - v_850
+  - v_925
+  - v_1000
+  - v10
+  - w_100
+  - w_150
+  - w_200
+  - w_250
+  - w_300
+  - w_400
+  - w_500
+  - w_600
+  - w_700
+  - w_850
+  - w_925
+  - w_1000
+  - u80
+  - v80
+  - accum_tp

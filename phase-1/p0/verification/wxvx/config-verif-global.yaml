@@ -1,0 +1,64 @@
+baseline:
+  compare: true
+  name: GFS
+  url: https://noaa-gfs-bdp-pds.s3.amazonaws.com/gfs.{yyyymmdd}/{hh}/atmos/gfs.t{hh}z.pgrb2.0p25.f{fh:03}
+cycles:
+  - 2023-03-01T00:00:00
+#cycles:
+#  start: 2023-03-01T00:00:00
+#  step: 6
+#  stop: 2023-01-00T00:00:00
+forecast:
+  coords:
+    latitude: latitude
+    level: level
+    longitude: longitude
+    time:
+      inittime: forecast_reference_time
+      validtime: time
+  name: Nested-EAGLE-v0
+  path: /pscratch/sd/m/mlpope/gfs_hrrr/global_2023-03-01T00.240h.nc
+  projection:
+    proj: latlon
+leadtimes: 
+  start: "00:00:00"
+  step: "06:00:00"
+  stop: "240:00:00"
+meta:
+  grids: "{{ meta.workdir }}/grids"
+  levels: &levels [850, 500]
+  workdir: /pscratch/sd/m/mlpope/gfs_hrrr/global_test/
+paths:
+  grids:
+    baseline: "{{ meta.grids }}/baseline"
+    forecast: "{{ meta.grids }}/forecast"
+  run: "{{ meta.workdir }}/run"
+variables:
+   t2m:
+     level_type: heightAboveGround
+     levels: [2]
+     name: 2t
+#   gh:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: gh
+#   q:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: q
+#   t:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: t
+#   u:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: u
+#   v:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: v
+#   w:
+#     level_type: isobaricInhPa
+#     levels: *levels
+#     name: w

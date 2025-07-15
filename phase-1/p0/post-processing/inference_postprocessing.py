@@ -2,26 +2,11 @@ import xarray as xr
 import numpy as np
 import pandas as pd
 import xesmf as xe
-from typing import List, Optional
+from typing import List, Optional, Tuple, Union
 import yaml
+from pathlib import Path
 import sys
 from datetime import datetime
-
-
-def load_config(config_path: str) -> dict:
-    """
-    Load configuration from YAML file.
-
-    Args:
-        config_path (str): Path to config file.
-
-    Returns:
-        dict: Config.
-    """
-    with open(config_path, "r") as f:
-        config = yaml.safe_load(f)
-
-    return config
 
 
 def open_raw_inference(path_to_raw_inference: str) -> xr.Dataset:
@@ -37,25 +22,8 @@ def open_raw_inference(path_to_raw_inference: str) -> xr.Dataset:
     return xr.open_dataset(path_to_raw_inference)
 
 
-def open_static_lam(path_to_lam_file: Optional[str] = None) -> xr.Dataset:
-    """
-    Open a static LAM file used to mask nested files into lam/global.
-
-    Args:
-        path_to_lam_file (Optional[str]): Path to a static LAM file.
-
-    Returns:
-        xr.Dataset: Static grid file representing LAM domain.
-
-    TODO - run inference on the fly with "extract_lam" to create it if user has not created it themselves yet.
-    """
-    if path_to_lam_file:
-        return xr.open_dataset(path_to_lam_file)
-    raise ValueError("No LAM File Found - Automatic generation not yet implemented")
-
-
 def mask_values(
-    area_to_return: str, ds_nested: xr.Dataset, ds_static_lam: xr.Dataset
+    area_to_return: str, ds_nested: xr.Dataset, lam_index: int
 ) -> xr.Dataset:
     """
     Mask dataset values based on LAM coordinates.
@@ -63,25 +31,15 @@ def mask_values(
     Args:
         area_to_return (str): Either "lam" or "global" to specify which area to return.
         ds (xr.Dataset): Input nested dataset to mask.
-        static_lam (xr.Dataset): Static LAM dataset containing LAM coordinates.
+        lam_index (int): Index where nested ds transitions from LAM->global.
 
     Returns:
         xr.Dataset: Masked dataset containing either LAM only ds or global only (lam missing) ds.
     """
-    lam_coords = set(
-        zip(ds_static_lam["latitude"].values, ds_static_lam["longitude"].values)
-    )
-    ds_coords = list(zip(ds_nested["latitude"].values, ds_nested["longitude"].values))
-    mask = np.array([(lat, lon) in lam_coords for lat, lon in ds_coords])
-
     if area_to_return == "lam":
-        masked_indices = ds_nested["values"].where(mask).values
-        masked_indices = masked_indices[~np.isnan(masked_indices)].astype(int)
-        return ds_nested.sel(values=masked_indices)
+        return ds_nested.where(ds_nested["values"] < lam_index, drop=True)
     elif area_to_return == "global":
-        masked_indices = ds_nested["values"].where(~mask).values
-        masked_indices = masked_indices[~np.isnan(masked_indices)].astype(int)
-        return ds_nested.sel(values=masked_indices)
+        return ds_nested.where(ds_nested["values"] >= lam_index, drop=True)
     else:
         raise ValueError("area_to_return must be either 'lam' or 'global'")
 
@@ -89,7 +47,7 @@ def mask_values(
 def create_2D_grid(
     ds: xr.Dataset,
     vars_of_interest: List[str],
-    curvilinear: bool = False,
+    lcc_info: dict = None,
 ) -> xr.Dataset:
     """
     Reshape dataset from 1D 'values' dimension to 2D latitude and longitude.
@@ -97,18 +55,17 @@ def create_2D_grid(
     Args:
         ds (xr.Dataset): Anemoi dataset with a flattened "values" dimension.
         vars_of_interest (List[str]): Variables to reshape.
-        curvilinear (bool): Flag for curvilinear grid or not.
+        lcc_info (dict): Necesary info about LCC configuation.
 
     Returns:
         xr.Dataset: Dataset with shape (time, latitude, longitude).
     """
     ds_to_reshape = ds.copy()
 
-    if curvilinear:
-        # hard coding hrrr dimensions in for the time being :)
-        # TODO -- definitely do not do that ^^^ :)
-        lat_length = 1059
-        lon_length = 1799
+    if lcc_info:
+        lat_length = lcc_info["lat_length"]
+        lon_length = lcc_info["lon_length"]
+
         time_length = len(ds_to_reshape["time"].values)
 
         ds_to_reshape["x"] = np.arange(0, lon_length)
@@ -224,7 +181,7 @@ def add_level_dim(
     return ds
 
 
-def add_attrs(ds: xr.Dataset, time: xr.DataArray) -> xr.Dataset:
+def final_steps(ds: xr.Dataset, time: xr.DataArray) -> xr.Dataset:
     """
     Add helpful attributes and reorganize dimensions for verification pipelines.
 
@@ -237,25 +194,12 @@ def add_attrs(ds: xr.Dataset, time: xr.DataArray) -> xr.Dataset:
     """
     ds = ds.assign_coords(time=time)
     ds.attrs["forecast_reference_time"] = str(ds["time"][0].values)
-    return ds.transpose("time", "level", "latitude", "longitude")
-
-
-def determine_global_resolution(global_ds: xr.Dataset) -> float:
-    """
-    Determine the resolution of the global dataset.
-
-    Args:
-        global_ds (xr.Dataset): Global dataset.
-
-    Returns:
-        float: Resolution in degrees. This should typically be 0.25 or 1.00.
-    """
-    # an attempt to determine global res on the fly.
-    # TODO - can probably come up with a more robust way to do this.
-    # but this should work for any grid that is a simple rectilinear 1 or 0.25 degree.
-    lon = np.unique(global_ds["longitude"])
-    res = np.abs(np.diff(lon)).min()
-    return res
+    if {"x", "y"}.issubset(ds.dims):
+        return ds.transpose("time", "level", "y", "x").rename(
+            {"x": "longitude", "y": "latitude"}
+        )
+    elif {"latitude", "longitude"}.issubset(ds.dims):
+        return ds.transpose("time", "level", "latitude", "longitude")
 
 
 def regrid_ds(ds_to_regrid: xr.Dataset, ds_out: xr.Dataset) -> xr.Dataset:
@@ -278,7 +222,11 @@ def regrid_ds(ds_to_regrid: xr.Dataset, ds_out: xr.Dataset) -> xr.Dataset:
     return regridder(ds_to_regrid)
 
 
-def get_conus_ds_out(global_ds: xr.Dataset, conus_ds: xr.Dataset) -> xr.Dataset:
+def get_conus_ds_out(
+    global_ds: xr.Dataset,
+    conus_ds: xr.Dataset,
+    global_info: dict,
+) -> xr.Dataset:
     """
     Create conus dataset on global grid.
     This will then be used for regridding high-res conus to global res.
@@ -287,21 +235,16 @@ def get_conus_ds_out(global_ds: xr.Dataset, conus_ds: xr.Dataset) -> xr.Dataset:
     Args:
         global_ds (xr.Dataset): Global dataset.
         conus_ds (xr.Dataset): CONUS dataset.
+        global_info (dict): Necessary information for global grid.
 
     Returns:
         xr.Dataset: Output dataset with CONUS grid.
     """
-    res = determine_global_resolution(global_ds)
-    shift = res / 2
-
-    # Okay the "shift" thing is wonky.
-    # I need to come back to this. I think it is an artifact of how we regriddeed ERA5 in p1 but am unsure.
-    # It actually may be necessary to make sure we don't get overlapping pixels on boundaries of CONUS/global.
-    # Either way, it works right now. I need to dig into it a little more.
-    lat_min = conus_ds["latitude"].min() + shift
-    lon_min = conus_ds["longitude"].min() + shift
-    lat_max = conus_ds["latitude"].max() + shift
-    lon_max = conus_ds["longitude"].max() + shift
+    res = global_info["res"]
+    lat_min = global_info["lat_min"]
+    lon_min = global_info["lon_min"]
+    lat_max = global_info["lat_max"]
+    lon_max = global_info["lon_max"]
 
     return xr.Dataset(
         {
@@ -352,7 +295,9 @@ def flatten_grid(ds_to_flatten: xr.Dataset, vars_of_interest: List[str]) -> xr.D
     data_vars["latitude"] = ("values", lats)
     data_vars["longitude"] = ("values", lons)
 
-    return xr.Dataset(data_vars=data_vars)
+    ds = xr.Dataset(data_vars=data_vars)
+
+    return ds.dropna(dim="values", subset=[vars_of_interest[0]], how="any")
 
 
 def combine_lam_w_global(
@@ -373,52 +318,46 @@ def combine_lam_w_global(
 
 def postprocess_lam_only(
     ds_nested: xr.Dataset,
-    ds_lam: xr.Dataset,
+    lam_index: int,
     vars_of_interest: List[str],
     level_variables: List[str],
     levels: List[int],
-    curvilinear: bool,
+    lcc_info: bool,
 ) -> xr.Dataset:
     """
     Postprocess LAM-only data.
 
     Args:
         ds_nested (xr.Dataset): Nested dataset.
-        ds_lam (xr.Dataset): LAM dataset.
+        lam_index (int): Index where nested ds transitions from LAM->global.
         vars_of_interest (List[str]): All variables to process.
         level_variables (List[str]): Variables that have levels.
         levels (List[int]): List of levels to process.
-        curvilinear (bool): Flag if curvilinear grid (e.g. HRRR).
+        lcc_info (bool): Flag if lcc_flag grid (e.g. HRRR).
 
     Returns:
         xr.Dataset: Processed LAM dataset ready for verification :)
     """
     time = ds_nested["time"]
 
-    # mask global and return conus only values
-    ds_lam = mask_values(
-        area_to_return="lam", ds_nested=ds_nested, ds_static_lam=ds_lam
-    )
-
-    # go from 1D values to 2D lat/lon dimensions
+    ds_lam = mask_values(area_to_return="lam", ds_nested=ds_nested, lam_index=lam_index)
     ds_lam = create_2D_grid(
-        ds=ds_lam, vars_of_interest=vars_of_interest, curvilinear=curvilinear
+        ds=ds_lam, vars_of_interest=vars_of_interest, lcc_info=lcc_info
     )
-
-    # add a few formatting steps to make file more user friendly and ready for verification.
     ds_lam = add_level_dim(ds=ds_lam, level_variables=level_variables, levels=levels)
-    ds_lam = add_attrs(ds=ds_lam, time=time)
+    ds_lam = final_steps(ds=ds_lam, time=time)
 
     return ds_lam
 
 
 def postprocess_global(
     ds_nested: xr.Dataset,
-    static_lam: xr.Dataset,
+    lam_index: int,
     vars_of_interest: List[str],
     level_variables: List[str],
     levels: List[int],
-    curvilinear: bool,
+    lcc_info: dict,
+    global_info: dict,
 ) -> xr.Dataset:
     """
     Postprocess global data.
@@ -426,37 +365,37 @@ def postprocess_global(
 
     Args:
         ds_nested (xr.Dataset): Nested dataset.
-        static_lam (xr.Dataset): Static LAM dataset.
+        lam_index (int): Index where nested ds transitions from LAM->global.
         vars_of_interest (List[str]): All variables to process.
         level_variables (List[str]): Variables that have levels.
         levels (List[int]): List of levels to process.
-        curvilinear (bool): Flag if curvilinear grid (e.g. HRRR).
+        lcc_info (dict): Necessary information for a LCC grid.
+        lcc_info (dict): Necessary information for the global grid.
 
     Returns:
         xr.Dataset: Post-processed global dataset.
     """
     time = ds_nested["time"]
 
-    # return lam only ds
-    lam_ds = mask_values(
-        area_to_return="lam", ds_nested=ds_nested, ds_static_lam=static_lam
-    )
-    # return global only ds (lam has been cut out)
+    # create lam only ds and global only ds (lam has been cut out)
+    lam_ds = mask_values(area_to_return="lam", ds_nested=ds_nested, lam_index=lam_index)
     global_ds = mask_values(
-        area_to_return="global", ds_nested=ds_nested, ds_static_lam=static_lam
+        area_to_return="global", ds_nested=ds_nested, lam_index=lam_index
     )
 
-    # take lam from 1D to 2D (values dim -> lat/lon dims)
+    # take lam from 1D to 2D (values dim -> lat/lon or x/y dims)
     lam_ds = create_2D_grid(
-        ds=lam_ds, vars_of_interest=vars_of_interest, curvilinear=curvilinear
+        ds=lam_ds, vars_of_interest=vars_of_interest, lcc_info=lcc_info
     )
+
     # create blank grid over conus that matches global resolution
-    ds_out_conus = get_conus_ds_out(global_ds, lam_ds)
+    ds_out_conus = get_conus_ds_out(global_ds, lam_ds, global_info=global_info)
 
     # regrid lam to match global resolution
     lam_ds_regridded = regrid_ds(ds_to_regrid=lam_ds, ds_out=ds_out_conus)
 
     # flatten regridded lam back to 1D (lat/lon dims -> values dim)
+    # necessary to concat it back to global grid
     ds_lam_regridded_flattened = flatten_grid(
         ds_to_flatten=lam_ds_regridded, vars_of_interest=vars_of_interest
     )
@@ -473,53 +412,59 @@ def postprocess_global(
     ds_combined = add_level_dim(
         ds=ds_combined, level_variables=level_variables, levels=levels
     )
-    ds_combined = add_attrs(ds=ds_combined, time=time)
+
+    ds_combined = final_steps(ds=ds_combined, time=time)
 
     return ds_combined
 
 
 def run(
     initialization: pd.Timestamp,
-    vars_of_interest: list[str],
-    level_variables: list[str],
-    levels: list[int],
-    path_to_static_lam: str,
-    raw_inference_files_base_path: str,
-    curvilinear: bool,
+    config,
 ):
     """
     Run full pipeline.
 
     """
-    i = datetime.fromisoformat(initialization).strftime("%Y%m%dT%H%M%SZ")
+    vars_of_interest = config["vars_of_interest"]
+    level_variables = config["level_variables"]
+    levels = config["levels"]
+    lam_index = config["lam_index"]
+    lcc_info = config["lcc_info"]
+    global_info = config["global_info"]
+    raw_inference_files_base_path = config["raw_inference_files_base_path"]
+
+    file_date = datetime.fromisoformat(initialization).strftime("%Y-%m-%dT%H")
+    file_name = f"{file_date}.240h"
 
     ds_nested = open_raw_inference(
-        path_to_raw_inference=f"{raw_inference_files_base_path}/{i}.nc"
+        path_to_raw_inference=f"{raw_inference_files_base_path}/{file_name}.nc"
     )
-    static_lam = open_static_lam(path_to_lam_file=path_to_static_lam)
 
     lam_ds = postprocess_lam_only(
         ds_nested=ds_nested,
-        ds_lam=static_lam,
+        lam_index=lam_index,
         vars_of_interest=vars_of_interest,
         level_variables=level_variables,
         levels=levels,
-        curvilinear=curvilinear,
+        lcc_info=lcc_info,
     )
+
+    lam_ds.to_netcdf(f"lam_{file_name}.nc")
 
     global_ds = postprocess_global(
         ds_nested=ds_nested,
-        static_lam=static_lam,
+        lam_index=lam_index,
         vars_of_interest=vars_of_interest,
         level_variables=level_variables,
         levels=levels,
-        curvilinear=curvilinear,
+        lcc_info=lcc_info,
+        global_info=global_info,
     )
 
-    lam_ds.to_netcdf(f"lam_{i}.nc")
-    global_ds.to_netcdf(f"global_{i}.nc")
+    global_ds.to_netcdf(f"global_{file_name}.nc")
 
-    # TODO - revisit if this is how we want to be saving files out.
+    # TODO - revisit if this is how we want to be saving files out?
 
     return
 
@@ -527,31 +472,21 @@ def run(
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python inference_postprocessing.py <config>")
-        print("Example: python inference_postprocessing.py 'config.yaml")
+        print("Example: python inference_postprocessing.py config.yaml")
         sys.exit(1)
 
     config_path = sys.argv[1]
 
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
-    vars_of_interest = config["vars_of_interest"]
-    level_variables = config["level_variables"]
-    levels = config["levels"]
-    path_to_static_lam = config["path_to_static_lam"]
-    raw_inference_files_base_path = config["raw_inference_files_base_path"]
+
     start_date = config["initializations_to_run"]["start"]
     end_date = config["initializations_to_run"]["end"]
     freq = config["initializations_to_run"]["freq"]
-    curvilinear_flag = config["curvilinear"]
 
     dates = pd.date_range(start=start_date, end=end_date, freq=freq)
     for i in dates:
         run(
             initialization=str(i),
-            vars_of_interest=vars_of_interest,
-            level_variables=level_variables,
-            levels=levels,
-            path_to_static_lam=path_to_static_lam,
-            raw_inference_files_base_path=raw_inference_files_base_path,
-            curvilinear=curvilinear_flag,
+            config=config,
         )
