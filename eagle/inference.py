@@ -1,12 +1,18 @@
 import os
 import sys
 import yaml
+import logging
 
 from datetime import datetime
 import pandas as pd
 
 from anemoi.inference.config.run import RunConfiguration
 from anemoi.inference.runners import create_runner
+
+from eagle.log import setup_simple_log
+from eagle.utils import open_yaml_config
+
+logger = logging.getLogger("eagle")
 
 def date_to_str(
     date: str,
@@ -22,21 +28,6 @@ def date_to_str(
     """
     dt = datetime.fromisoformat(date)
     return dt.strftime("%Y-%m-%dT%H")
-
-def get_main_config(config_filename: str):
-    with open(config_filename, "r") as f:
-        main_config = yaml.safe_load(f)
-
-    # expand any environment variables
-    for key, val in main_config.items():
-        if "path" in key:
-            main_config[key] = os.path.expandvars(val)
-
-    # if output_path is not created, make it here
-    if not os.path.isdir(main_config["output_path"]):
-        os.makedirs(main_config["output_path"])
-
-    return main_config
 
 def create_config(
     init_date: str,
@@ -135,17 +126,15 @@ def run_forecast(
 
 def run_inference():
     if len(sys.argv) != 2:
-        print(
-            "Usage: python run_inference.py recipe.yaml"
-        )
+        raise Exception("Did not get an argument. Usage is:\npython run_inference.py recipe.yaml")
         sys.exit(1)
 
     config_filename = sys.argv[1]
-    main_config = get_main_config(config_filename)
+    main_config = open_yaml_config(config_filename)
 
     dates = pd.date_range(start=main_config["start_date"], end=main_config["end_date"], freq=main_config["freq"])
 
-    print(f"Starting inference with initial condition dates:\n{dates}")
+    logger.info(f"Starting inference with initial condition dates:\n{dates}")
 
     nc_files = []
     for d in dates:
@@ -153,4 +142,4 @@ def run_inference():
             init_date=str(d),
             main_config=main_config,
         )
-        print(f"Done with {d}")
+        logger.info(f"Done with {d}")
