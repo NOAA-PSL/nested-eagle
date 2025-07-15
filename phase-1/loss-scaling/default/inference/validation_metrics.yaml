@@ -1,0 +1,9 @@
+# location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
+forecast_path: ${SCRATCH}/nested-eagle/phase-1/loss-scaling/default/inference-validation/84ea2581-ccc7-4d18-a18e-69102153cfa0
+lead_time: 240h
+verification_dataset_path: ${SCRATCH}/nested-eagle/phase-1/data/global.validation.zarr
+output_path: ${SCRATCH}/nested-eagle/phase-1/loss-scaling/default/inference-validation/84ea2581-ccc7-4d18-a18e-69102153cfa0
+
+start_date: 2018-01-01T06
+end_date: 2018-12-31T18
+freq: 54h
