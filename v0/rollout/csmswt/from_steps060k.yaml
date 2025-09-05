@@ -98,13 +98,13 @@ diagnostics:
       entity: null
     mlflow:
       enabled: True
-      offline: True
+      offline: False
       authentication: False
       log_model: False
       tracking_uri: null
       experiment_name: 'Nested-EAGLE-v0'
       project_name: 'Nested-EAGLE'
-      use_azure: False
+      use_azure: True
       aml_resource_group: "PSL-PMP-ML"
       aml_workspace_name: "psl-ml-workspace"
       system: False
@@ -116,8 +116,8 @@ diagnostics:
       http_max_retries: 35
   plot:
     frequency:
-      batch: 30_000
-      epoch: 5
+      batch: 300_000
+      epoch: 300
     parameters: []
     precip_and_related_fields: []
     callbacks: []
@@ -189,16 +189,17 @@ hardware:
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/data
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/trim10-win4320/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/rollout/csmswt/from-steps030k/
-    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/checkpoint/${training.fork_run_id}/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/rollout/csmswt/from-steps060k/
+    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/300epochs/csmswt/steps060k/checkpoint/${training.fork_run_id}/
   files:
     graph: graph.latentx2.spongex1.12knn.pt
     npz_file: latentx2.spongex1.combined.sorted.npz
     lam_dataset: hrrr.zarr
     global_dataset: gfs.zarr
+    warm_start: last.ckpt
 
 model:
-  num_channels: 512 #???
+  num_channels: 512
   processor:
     window_size: 4320
   bounding:
@@ -220,7 +221,7 @@ model:
       - q_1000
 
 training:
-  fork_run_id: 8db170cad8834450ad8a264fbd2fdf77
+  fork_run_id: 96bbfe13-0e30-4da4-8c62-ff17f984e986
   load_weights_only: True
   transfer_learning: True
   max_steps: 5760

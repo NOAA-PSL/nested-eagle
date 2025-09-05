@@ -1,0 +1,3 @@
+slurm/
+outputs/
+submit*.sh
