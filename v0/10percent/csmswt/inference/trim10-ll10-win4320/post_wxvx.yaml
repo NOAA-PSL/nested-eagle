@@ -1,0 +1,15 @@
+start_date: 2023-03-02T12
+end_date: 2023-03-04T18
+freq: 54h
+
+leadtimes:
+  start: 0
+  end: 120
+  step: 6
+
+stat_prefix: point_stat_nested-eagle
+variable_prefixes:
+  - 2t_heightAboveGround_0002
+  - gh_isobaricInhPa_0500
+
+work_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation/obs-val
