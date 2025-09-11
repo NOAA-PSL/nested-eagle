@@ -1,0 +1,21 @@
+forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation
+model_type: nested-lam
+lam_index: 64220
+lcc_info:
+  n_y: 338
+  n_x: 190
+vars_of_interest:
+  - t2m
+  - gh
+  - sp
+  - t
+  - u
+  - u10
+  - v
+  - v10
+
+levels:
+  - 250
+  - 500
+  - 850
+
