@@ -1,0 +1,25 @@
+forecast_path: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/gefs.ensemble-mean.zarr
+output_path: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/
+model_type: lam
+from_anemoi: False
+trim_forecast_edge: [10, 11, 10, 11]
+vars_of_interest:
+  - t2m
+  - gh
+  - sp
+  - t
+  - u
+  - u10
+  - v
+  - v10
+
+levels:
+  - 250
+  - 500
+  - 850
+
+member: -1
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h

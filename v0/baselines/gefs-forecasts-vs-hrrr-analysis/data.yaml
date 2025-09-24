@@ -1,0 +1,72 @@
+mover:
+  name: mpidatamover
+
+directories:
+  zarr: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/gefs.ensemble-mean.zarr
+  cache: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/cache
+  logs: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/logs
+
+source:
+  name: aws_gefs_archive
+  t0:
+    start: 2023-02-01T06
+    end: 2024-01-31T18
+    freq: 54h
+
+  fhr:
+    start: 0
+    end: 240
+    step: 6
+
+  member:
+    start: -1
+    end: 0
+    step: 1
+
+  variables:
+    # 3D Prognostic
+    - gh
+    - u
+    - v
+    #- w
+    - t
+    #- q
+    # 2D Prognostic
+    - sp
+    - u10
+    - v10
+    - t2m
+    # TBD
+    #- t_surface
+    # - sh2
+    # Diagnostic
+    #- u80
+    #- v80
+
+  levels:
+    #- 200
+    - 250
+    - 500
+    - 850
+
+  slices:
+    sel:
+      latitude: [89.9, -89.9]
+
+transforms:
+  horizontal_regrid:
+    target_grid_path: ${SCRATCH}/nested-eagle/v0/data/hrrr_15km.nc
+    regridder_kwargs:
+      method: conservative
+      reuse_weights: True
+      filename: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/conservative_weights.nc
+
+target:
+  name: base
+  chunks:
+    t0: 1
+    fhr: 1
+    member: 1
+    level: -1
+    y: -1
+    x: -1
