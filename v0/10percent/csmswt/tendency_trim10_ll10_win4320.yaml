@@ -1,0 +1,251 @@
+defaults:
+- data: zarr
+- dataloader: native_grid
+- datamodule: single
+- diagnostics: evaluation
+- hardware: slurm
+- graph: encoder_decoder_only
+- model: transformer
+- training: stretched
+- _self_
+
+config_validation: True
+
+data:
+  forcing:
+    - cos_latitude
+    - sin_latitude
+    - cos_longitude
+    - sin_longitude
+    - cos_julian_day
+    - sin_julian_day
+    - cos_local_time
+    - sin_local_time
+    - insolation
+    - lsm
+    - orog
+  diagnostic:
+    - accum_tp
+    - u80
+    - v80
+  normalizer:
+    default: mean-std
+    std:
+      - accum_tp
+      - sh2
+      - q_100
+      - q_150
+      - q_200
+      - q_250
+      - q_300
+      - q_400
+      - q_500
+      - q_600
+      - q_700
+      - q_850
+      - q_925
+      - q_1000
+    max:
+      - orog
+    none:
+      - cos_latitude
+      - sin_latitude
+      - cos_longitude
+      - sin_longitude
+      - cos_julian_day
+      - sin_julian_day
+      - cos_local_time
+      - sin_local_time
+      - insolation
+      - lsm
+
+dataloader:
+  batch_size:
+    training: 1
+    validation: 1
+    test: 1
+  num_workers:
+    training: 8
+    validation: 8
+    test: 1
+  limit_batches:
+    training: null
+    validation: null
+    test: 1
+  dataset:
+    cutout:
+      # LAM
+      - dataset: ${hardware.paths.data}/${hardware.files.lam_dataset}
+        trim_edge: [10, 11, 10, 11]
+      # Global forcing
+      - dataset: ${hardware.paths.data}/${hardware.files.global_dataset}
+    adjust: all
+    min_distance_km: 0
+  training:
+    start: 2015-02-01
+    end: 2023-01-31
+  validation:
+    start: 2023-02-01
+    end: 2024-01-31
+  test:
+    start: 2023-02-01
+    end: 2024-01-31
+
+diagnostics:
+  checkpoint:
+    every_n_minutes:
+      save_frequency: null
+      num_models_saved: 0
+    every_n_epochs:
+      save_frequency: 10
+      num_models_saved: -1
+  log:
+    wandb:
+      enabled: False
+      entity: null
+    mlflow:
+      enabled: True
+      offline: True
+      authentication: False
+      log_model: False
+      tracking_uri: null
+      experiment_name: 'Nested-EAGLE-v0'
+      project_name: 'Nested-EAGLE'
+      use_azure: False
+      aml_resource_group: "PSL-PMP-ML"
+      aml_workspace_name: "psl-ml-workspace"
+      system: False
+      terminal: True
+      run_name: null # If set to null, the run name will be the a random UUID
+      on_resume_create_child: True
+      expand_hyperparams: # Which keys in hyperparams to expand
+        - config
+      http_max_retries: 35
+  plot:
+    frequency:
+      batch: 300_000
+      epoch: 300
+    parameters: []
+    precip_and_related_fields: []
+    callbacks: []
+
+graph:
+  overwrite: False
+  nodes:
+    data:
+      node_builder:
+        _target_: anemoi.graphs.nodes.AnemoiDatasetNodes
+        dataset: ${dataloader.dataset}
+      attributes: ${graph.attributes.nodes}
+    hidden:
+      node_builder:
+        _target_: anemoi.graphs.nodes.NPZFileNodes
+        npz_file: ${hardware.paths.graph}/${hardware.files.npz_file}
+        lat_key: lat
+        lon_key: lon
+  edges:
+  # Encoder
+  - source_name: ${graph.data}
+    target_name: ${graph.hidden}
+    edge_builders:
+    - _target_: anemoi.graphs.edges.KNNEdges
+      num_nearest_neighbours: 12
+      source_mask_attr_name: null
+      target_mask_attr_name: null
+    attributes: ${graph.attributes.edges}
+  # Decoder
+  - source_name: ${graph.hidden}
+    target_name: ${graph.data}
+    edge_builders:
+    - _target_: anemoi.graphs.edges.KNNEdges
+      num_nearest_neighbours: 3
+      source_mask_attr_name: null
+      target_mask_attr_name: null
+    attributes: ${graph.attributes.edges}
+  attributes:
+    nodes:
+      # Attributes for data nodes
+      cutout_mask:
+        _target_: anemoi.graphs.nodes.attributes.CutOutMask
+      boundary_mask:
+        _target_: anemoi.graphs.nodes.attributes.BooleanNot
+        masks:
+          _target_: anemoi.graphs.nodes.attributes.CutOutMask
+      area_weight:
+        _target_: anemoi.graphs.nodes.attributes.SphericalAreaWeights
+        norm: unit-max
+        fill_value: 0
+      lam_area_weight:
+        _target_: anemoi.graphs.nodes.attributes.MaskedPlanarAreaWeights
+        mask_node_attr_name: cutout_mask
+        norm: unit-max
+    edges:
+      edge_length:
+        _target_: anemoi.graphs.edges.attributes.EdgeLength
+        norm: unit-max
+      edge_dirs:
+        _target_: anemoi.graphs.edges.attributes.EdgeDirection
+        norm: unit-std
+
+  post_processors:
+    - _target_: anemoi.graphs.processors.SortEdgeIndexByTargetNodes
+      descending: True  # optional, defaults to true
+
+hardware:
+  num_gpus_per_model: 2
+  paths:
+    data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/data
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/trim10-win4320/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/tendency-trim10-ll10-win4320/
+  files:
+    graph: graph.latentx2.spongex1.12knn.pt
+    npz_file: latentx2.spongex1.combined.sorted.npz
+    lam_dataset: hrrr.zarr
+    global_dataset: gfs.zarr
+
+model:
+  num_channels: 512 #???
+  processor:
+    window_size: 4320
+  bounding:
+    - _target_: anemoi.models.layers.bounding.ReluBounding #[0, infinity)
+      variables:
+      - accum_tp
+      - sh2
+      - q_100
+      - q_150
+      - q_200
+      - q_250
+      - q_300
+      - q_400
+      - q_500
+      - q_600
+      - q_700
+      - q_850
+      - q_925
+      - q_1000
+
+training:
+  max_steps: 30_000
+  # LR = local_rate * num_gpus_per_node * num_nodes / gpus_per_model
+  #    = local_rate * total_gpus / gpus_per_model
+  lr:
+    warmup: 1000
+    rate: 0.625e-4
+    iterations: ${training.max_steps}
+    min: 3e-7
+  variable_groups:
+    default: sfc
+    pl: [gh, u, v, w, t, q]
+  metrics:
+    - gh_500
+    - t_850
+    - u_850
+    - v_850
+  training_loss:
+    _target_: anemoi.training.losses.MSELoss
+    scalers: ["nan_mask_weights", "node_weights", "stdev_tendency"]
+    ignore_nans: False
+  scalers:
+    node_weights:
+      weight_frac_of_total: 0.1
