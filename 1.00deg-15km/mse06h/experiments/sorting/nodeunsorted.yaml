@@ -244,7 +244,7 @@ hardware:
   num_gpus_per_model: 2
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
-    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/smswt-custom/
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim15
     output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/smswt-custom/
   files:
     graph: graph.x2.14knn.pt

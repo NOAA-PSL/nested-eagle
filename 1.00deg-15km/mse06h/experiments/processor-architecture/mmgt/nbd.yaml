@@ -230,7 +230,7 @@ hardware:
   num_gpus_per_model: 2
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
-    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/mmgt/nbd/
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/mmgt-nbd/
     output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/mmgt/nbd/
   files:
     graph: graph.20knn.pt

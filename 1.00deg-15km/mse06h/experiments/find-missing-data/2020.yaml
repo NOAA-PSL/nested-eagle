@@ -192,7 +192,7 @@ hardware:
   num_gpus_per_model: 2
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
-    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/mmgt/
     output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/one-year-training/2020/training-output/
   files:
     graph: hrrr_15km_8.gfs_1deg_5.pt
