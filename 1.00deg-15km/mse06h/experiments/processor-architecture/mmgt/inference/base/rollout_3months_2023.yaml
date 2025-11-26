@@ -8,11 +8,11 @@ input:
   dataset:
     cutout:
       - join:
-        - dataset: "/pscratch/sd/t/timothys/nested-eagle/v0/data/hrrr.analysis.zarr"
-        - dataset: "/pscratch/sd/t/timothys/nested-eagle/v0/data/hrrr.forecast.zarr"
+        - dataset: "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.analysis.zarr"
+        - dataset: "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.forecast.zarr"
       - join:
-        - dataset: "/pscratch/sd/t/timothys/nested-eagle/v0/data/gfs.analysis.zarr"
-        - dataset: "/pscratch/sd/t/timothys/nested-eagle/v0/data/gfs.forecast.zarr"
+        - dataset: "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.analysis.zarr"
+        - dataset: "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.forecast.zarr"
     adjust: all
     min_distance_km: 0
 

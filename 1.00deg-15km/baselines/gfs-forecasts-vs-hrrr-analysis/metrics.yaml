@@ -4,7 +4,7 @@ lead_time: 240h
 from_anemoi: False
 
 # this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
-verification_dataset_path: ${SCRATCH}/nested-eagle/v0/data/hrrr.analysis.zarr
+verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.analysis.zarr
 output_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-hrrr-analysis
 
 model_type: lam

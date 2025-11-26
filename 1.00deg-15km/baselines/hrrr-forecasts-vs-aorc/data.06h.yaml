@@ -23,11 +23,11 @@ source:
 
 transforms:
   horizontal_regrid:
-    target_grid_path: ${SCRATCH}/nested-eagle/v0/data/hrrr_15km.nc
+    target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr_15km.nc
     regridder_kwargs:
       method: conservative
       reuse_weights: True
-      filename: ${SCRATCH}/nested-eagle/v0/data/conservative_1059x1799_211x359.nc
+      filename: ${SCRATCH}/nested-eagle/1.00deg-15km/data/conservative_1059x1799_211x359.nc
 
 target:
   name: base

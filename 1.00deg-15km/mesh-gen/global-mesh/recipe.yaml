@@ -2,7 +2,7 @@ nodes:
   data:
     node_builder:
       _target_: anemoi.graphs.nodes.AnemoiDatasetNodes
-      dataset: /pscratch/sd/t/timothys/nested-eagle/v0/data/gfs.analysis.zarr
+      dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.analysis.zarr
     attributes:
       area_weight:
         _target_: anemoi.graphs.nodes.attributes.SphericalAreaWeights

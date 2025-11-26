@@ -55,7 +55,7 @@ source:
 
 transforms:
   horizontal_regrid:
-    target_grid_path: ${SCRATCH}/nested-eagle/v0/data/hrrr_15km.nc
+    target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr_15km.nc
     regridder_kwargs:
       method: conservative
       reuse_weights: True

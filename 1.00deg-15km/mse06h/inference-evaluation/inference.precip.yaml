@@ -2,9 +2,9 @@ checkpoint_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-l
 lead_time: 48
 input_dataset_kwargs:
   cutout:
-    - dataset: /pscratch/sd/t/timothys/nested-eagle/v0/data/hrrr.zarr
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.zarr
       trim_edge: [10, 11, 10, 11]
-    - dataset: /pscratch/sd/t/timothys/nested-eagle/v0/data/gfs.zarr
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.zarr
   adjust: all
   min_distance_km: 0
 output_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-precip

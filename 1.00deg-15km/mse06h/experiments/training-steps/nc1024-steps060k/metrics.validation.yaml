@@ -3,7 +3,7 @@ forecast_path: ${SCRATCH}/nested-eagle/v0/300epochs/csmswt/nc1024-steps060k/infe
 lead_time: 240h
 
 # this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
-verification_dataset_path: ${SCRATCH}/nested-eagle/v0/data/hrrr.zarr
+verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.zarr
 trim_edge: [10, 11, 10, 11]
 output_path: ${SCRATCH}/nested-eagle/v0/300epochs/csmswt/nc1024-steps060k/inference-validation
 

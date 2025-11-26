@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v0/data/gfs.zarr
-  cache: ${SCRATCH}/nested-eagle/v0/data/cache/gfs
-  logs: ${SCRATCH}/nested-eagle/v0/data/logs/gfs
+  zarr: ${SCRATCH}/nested-eagle/1.00deg-15km/data/gfs.zarr
+  cache: ${SCRATCH}/nested-eagle/1.00deg-15km/data/cache/gfs
+  logs: ${SCRATCH}/nested-eagle/1.00deg-15km/data/logs/gfs
 
 multisource:
 

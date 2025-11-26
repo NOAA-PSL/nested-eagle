@@ -21,8 +21,8 @@ srun ufs2arco hrrr.yaml --overwrite
 echo "done with hrrr"
 
 # Now copy some things over to community
-mywork=$WORK/nested-eagle/v0/data
-mycomm=$COMMUNITY/nested-eagle/v0/data
+mywork=$WORK/nested-eagle/1.00deg-15km/data
+mycomm=$COMMUNITY/nested-eagle/1.00deg-15km/data
 mkdir -p $mycomm
 mkdir -p $mycomm/logs/gfs
 mkdir -p $mycomm/logs/hrrr
