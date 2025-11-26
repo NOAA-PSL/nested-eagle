@@ -193,7 +193,7 @@ hardware:
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/mmgt/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/one-year-training/2015/training-output/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/find-missing-data/2015/training-output/
   files:
     graph: hrrr_15km_8.gfs_1deg_5.pt
     lam_analysis: hrrr.analysis.zarr

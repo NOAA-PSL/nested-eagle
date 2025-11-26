@@ -1,4 +1,4 @@
-checkpoint_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/ll10-win4320/checkpoint/5a269f58-dee0-4210-ad57-ab53bcf3ac85/inference-last.ckpt
+checkpoint_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/ll10-win4320/checkpoint/5a269f58-dee0-4210-ad57-ab53bcf3ac85/inference-last.ckpt
 lead_time: 240
 input_dataset_kwargs:
   cutout:
@@ -7,7 +7,7 @@ input_dataset_kwargs:
     - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.zarr
   adjust: all
   min_distance_km: 0
-output_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/ll10-win4320/inference
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/ll10-win4320/inference
 
 start_date: 2023-03-08T00
 end_date: 2023-03-09T12

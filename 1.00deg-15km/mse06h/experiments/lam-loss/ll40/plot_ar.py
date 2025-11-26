@@ -6,7 +6,7 @@ sys.path.append(_nested_eagle)
 from eagle.visualize import main
 
 if __name__ == "__main__":
-    inference_dir = "/pscratch/sd/t/timothys/nested-eagle/v0/10percent/csmswt/ll40-win4320/inference"
+    inference_dir = "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/ll40-win4320/inference"
 
     main(
         read_path=f"{inference_dir}/2023-03-09T00.240h.nc",
