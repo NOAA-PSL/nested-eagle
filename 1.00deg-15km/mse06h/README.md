@@ -26,3 +26,18 @@ conda uninstall mlflow mlflow-skinny mlflow-ui
 
 pip install mlflow azureml-core azureml-mlflow
 ```
+
+## Installation on Perlmutter
+
+The module load statements work for perlmutter, but may not be appropriate for
+other machines.
+
+```
+conda env create -n eagle python=3.11
+conda install -c conda-forge ufs2arco matplotlib cartopy cmocean
+module load gcc cudnn nccl
+pip install 'torch<2.7' anemoi-datasets==0.5.26 anemoi-graphs==0.6.4 anemoi-models==0.9.2 anemoi-training==0.6.2 anemoi-inference==0.7.1 anemoi-utils==0.4.35 anemoi-transform==0.1.16
+pip install 'flash-attn<2.8' --no-build-isolation
+pip install git+https://github.com/timothyas/xmovie.git@feature/gif-scale
+pip install eagle-tools
+```

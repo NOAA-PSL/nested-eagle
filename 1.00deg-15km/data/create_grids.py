@@ -1,30 +1,22 @@
-"""
-Create a 1 degree global grid to coarsen the 1/4 degree data to
-"""
-
 import os
 import xesmf
 import cf_xarray as cfxr
 
 from ufs2arco import sources
 
-if __name__ == "__main__":
+from anemoi.datasets.grids import cutout_mask
+from anemoi.graphs.generate.utils import get_coordinates_ordering
 
 
-    # global
-    store_dir = f"{os.environ['SCRATCH']}/nested-eagle/v0/data"
-    if not os.path.isdir(store_dir):
-        os.makedirs(store_dir)
-
+def get_global_data_grid():
     ds = xesmf.util.grid_global(1, 1, cf=True, lon1=360)
     ds = ds.drop_vars("latitude_longitude")
 
     # GFS goes north -> south
     ds = ds.sortby("lat", ascending=False)
+    return ds
 
-    ds.to_netcdf(f"{store_dir}/global_one_degree.nc")
-
-    # hrrr
+def get_conus_data_grid():
     hrrr = sources.AWSHRRRArchive(
         t0={"start": "2015-01-15T00", "end": "2015-01-15T06", "freq": "6h"},
         fhr={"start": 0, "end": 0, "step": 6},
@@ -66,6 +58,77 @@ if __name__ == "__main__":
         y_b=slice(0, None, 5),
     )
     chds = chds.drop_vars("orog")
+    return chds
 
-    chds.to_netcdf(f"{store_dir}/hrrr_15km.nc")
+def get_global_latent_grid():
+    """For the high rez version, this will process the original grid.
+    However, since the data grid is on an xesmf generated grid, it works out just fine to
+    generate another xesmf grid here.
+    """
 
+    mesh = xesmf.util.grid_global(2, 2, cf=True, lon1=360)
+    mesh = mesh.drop_vars("latitude_longitude")
+    return mesh
+
+def get_conus_latent_grid(xds, trim=10, coarsen=2):
+
+    mesh = xds[["lat_b", "lon_b"]].isel(
+        x_b=slice(trim, -trim-1, coarsen),
+        y_b=slice(trim, -trim-1, coarsen),
+    )
+    mesh = mesh.rename(
+        {
+            "lat_b": "lat",
+            "lon_b": "lon",
+            "x_b": "x",
+            "y_b": "y",
+        }
+    )
+    return mesh
+
+def combine_global_and_conus_meshes(gds, cds):
+
+    glon, glat = np.meshgrid(gmesh["lon"], gmesh["lat"])
+    mask = cutout_mask(
+        lats=cds["lat"].values.flatten(),
+        lons=cds["lon"].values.flatten(),
+        global_lats=glat.flatten(),
+        global_lons=glon.flatten(),
+        min_distance_km=0,
+    )
+
+    # combined
+    lon = np.concatenate([glon.flatten()[mask], cds["lon"].values.flatten()])
+    lat = np.concatenate([glat.flatten()[mask], cds["lat"].values.flatten()])
+
+    # sort, following exactly what anemoi graphs does for the data
+    coords = np.stack([lon, lat], axis=-1)
+    order = get_coordinates_ordering(coords)
+    lon = coords[order, 0]
+    lat = coords[order, 1]
+    return {"lon": lon, "lat": lat}
+
+
+if __name__ == "__main__":
+
+
+    store_dir = f"{os.environ['SCRATCH']}/nested-eagle/1.00deg-15km/data"
+    if not os.path.isdir(store_dir):
+        os.makedirs(store_dir)
+
+    # Data grids
+    gds = get_global_data_grid()
+    gds.to_netcdf(f"{store_dir}/global_one_degree.nc")
+
+    cds = get_conus_data_grid()
+    cds.to_netcdf(f"{store_dir}/hrrr_15km.nc")
+
+    # Latent meshes
+    gmesh = get_global_latent_grid()
+    cmesh = get_conus_latent_grid()
+    coords = combine_global_and_conus_meshes(gmesh, cmesh)
+    np.savez(
+        f"{store_dir}/latentx2.spongex1.combined.sorted.npz",
+        lon=coords["lon"],
+        lat=coords["lat"],
+    )
