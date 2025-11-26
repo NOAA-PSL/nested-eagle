@@ -28,6 +28,7 @@ srun --jobid $SLURM_JOBID ~/anemoi-house/slurm2ddp.sh anemoi-training train --co
 
 ## Base
 
+Defined in `config.yaml`
 Key hyperparameters here are the latent graph resolutions. Right now with
 1degree + 15km, using refinements
 
@@ -49,6 +50,7 @@ Key hyperparameters here are the latent graph resolutions. Right now with
 
 ## NBD
 
+Defined in `nbd.yaml`.
 Multi Mesh Graph Transformer with No Boundary Disconnected nodes.
 This is a copy of `../mmgt` except that the graph definition was modified so
 that there are no disconnected graph nodes around the GFS/HRRR boundary.
@@ -74,3 +76,9 @@ be the smallest without hanging nodes near CONUS.
 309       Modules in train mode
 0         Modules in eval mode
 ```
+
+## TNBD
+
+Defined in `tnbd.yaml`.
+This is the same as the `nbd` setup, but with a trimmed boundary to see if this
+would help alleviate boundary artifacts.
