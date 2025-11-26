@@ -76,7 +76,7 @@ dataloader:
     cutout:
       # LAM
       - dataset: ${hardware.paths.data}/${hardware.files.lam_dataset}
-        trim_edge: [15, 16, 15, 16]
+        trim_edge: [10, 11, 10, 11]
       # Global forcing
       - dataset: ${hardware.paths.data}/${hardware.files.global_dataset}
     adjust: all
@@ -98,16 +98,16 @@ diagnostics:
       entity: null
     mlflow:
       enabled: True
-      offline: False
+      offline: True
       authentication: False
       log_model: False
       tracking_uri: null
       experiment_name: 'Nested-EAGLE-v0'
       project_name: 'Nested-EAGLE'
-      use_azure: True
+      use_azure: False
       aml_resource_group: "PSL-PMP-ML"
       aml_workspace_name: "psl-ml-workspace"
-      system: True
+      system: False
       terminal: True
       run_name: null # If set to null, the run name will be the a random UUID
       on_resume_create_child: True
@@ -233,8 +233,8 @@ hardware:
   num_gpus_per_model: 2
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/data
-    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/win4320/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/ll10-nc0256-win4320/
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/trim10-win4320/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/
   files:
     graph: graph.latentx2.spongex1.12knn.pt
     npz_file: latentx2.spongex1.combined.sorted.npz
@@ -242,7 +242,7 @@ hardware:
     global_dataset: gfs.zarr
 
 model:
-  num_channels: 256
+  num_channels: 512 #???
   processor:
     window_size: 4320
   bounding:

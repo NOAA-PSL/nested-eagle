@@ -1,14 +1,14 @@
 # location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
-forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/base/inference-validation
+forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation
 lead_time: 240h
 
 # this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
-verification_dataset_path: ${SCRATCH}/nested-eagle/v0/data/hrrr.analysis.zarr
-trim_edge: [15, 16, 15, 16]
-output_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/base/inference-validation
+verification_dataset_path: ${SCRATCH}/nested-eagle/v0/data/hrrr.zarr
+trim_edge: [10, 11, 10, 11]
+output_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation
 
 model_type: nested-lam
-lam_index: 59040
+lam_index: 64220
 vars_of_interest:
   - gh
   - u

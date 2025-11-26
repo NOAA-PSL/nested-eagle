@@ -15,3 +15,14 @@ Main features obtained from experimentation:
 
 For some empirical justification of these choices, see the `experiments/`
 directory.
+
+## Package stack
+
+```
+pip install anemoi-datasets==0.5.23 anemoi-graphs==0.5.2 anemoi-models==0.5.0 anemoi-training==0.4.0
+pip install 'earthkit-data<0.14.0'
+
+conda uninstall mlflow mlflow-skinny mlflow-ui
+
+pip install mlflow azureml-core azureml-mlflow
+```
