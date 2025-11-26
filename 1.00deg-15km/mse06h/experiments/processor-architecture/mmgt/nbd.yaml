@@ -231,7 +231,7 @@ hardware:
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/mmgt-nbd/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/mmgt/nbd/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/processor-architecture/mmgt-nbd/
   files:
     graph: graph.20knn.pt
     lam_analysis: hrrr.analysis.zarr
