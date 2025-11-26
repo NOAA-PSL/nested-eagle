@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-aorc/gfs.forecasts.zarr
-  cache: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-aorc/cache
-  logs: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-aorc/logs
+  zarr: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-aorc/gfs.forecasts.zarr
+  cache: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-aorc/cache
+  logs: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-aorc/logs
 
 source:
   name: gfs_archive
@@ -34,7 +34,7 @@ transforms:
     regridder_kwargs:
       method: conservative
       reuse_weights: True
-      filename: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-aorc/conservative_weights.nc
+      filename: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-aorc/conservative_weights.nc
       unmapped_to_nan: True
 
 target:

@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v0/baselines/aorc/aorc.zarr
-  cache: ${SCRATCH}/nested-eagle/v0/baselines/aorc/cache
-  logs: ${SCRATCH}/nested-eagle/v0/baselines/aorc/logs
+  zarr: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/aorc/aorc.zarr
+  cache: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/aorc/cache
+  logs: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/aorc/logs
 
 multisource:
   # 1h
@@ -74,7 +74,7 @@ transforms:
     regridder_kwargs:
       method: conservative
       reuse_weights: True
-      filename: ${SCRATCH}/nested-eagle/v0/baselines/aorc/conservative_weights.nc
+      filename: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/aorc/conservative_weights.nc
       unmapped_to_nan: True
 
 merged_transforms:

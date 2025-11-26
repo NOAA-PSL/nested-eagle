@@ -18,4 +18,4 @@ variable_prefixes:
   - u_isobaricInhPa_0250
   - v_isobaricInhPa_0250
 
-work_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis/obs-val
+work_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis/obs-val

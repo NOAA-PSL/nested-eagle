@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/gefs.ensemble-mean.zarr
-  cache: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/cache
-  logs: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/logs
+  zarr: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gefs-ensemble-mean-vs-hrrr-analysis/gefs.ensemble-mean.zarr
+  cache: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gefs-ensemble-mean-vs-hrrr-analysis/cache
+  logs: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gefs-ensemble-mean-vs-hrrr-analysis/logs
 
 source:
   name: aws_gefs_archive
@@ -59,7 +59,7 @@ transforms:
     regridder_kwargs:
       method: conservative
       reuse_weights: True
-      filename: ${SCRATCH}/nested-eagle/v0/baselines/gefs-ensemble-mean-vs-hrrr-analysis/conservative_weights.nc
+      filename: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gefs-ensemble-mean-vs-hrrr-analysis/conservative_weights.nc
 
 target:
   name: base

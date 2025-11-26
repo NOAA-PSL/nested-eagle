@@ -1,5 +1,5 @@
-forecast_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
-output_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis
+forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis
 model_type: global
 from_anemoi: False
 vars_of_interest:

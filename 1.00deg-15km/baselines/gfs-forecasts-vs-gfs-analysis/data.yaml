@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
-  cache: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis/cache
-  logs: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-gfs-analysis/logs
+  zarr: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
+  cache: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis/cache
+  logs: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-gfs-analysis/logs
 
 source:
   name: gfs_archive

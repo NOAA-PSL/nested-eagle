@@ -1,5 +1,5 @@
-forecast_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-hrrr-analysis/gfs.forecasts.zarr
-output_path: ${SCRATCH}/nested-eagle/v0/baselines/gfs-forecasts-vs-hrrr-analysis/
+forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-hrrr-analysis/gfs.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-hrrr-analysis/
 model_type: lam
 from_anemoi: False
 trim_forecast_edge: [10, 11, 10, 11]

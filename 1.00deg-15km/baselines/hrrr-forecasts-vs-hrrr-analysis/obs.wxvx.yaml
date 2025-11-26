@@ -16,7 +16,7 @@ forecast:
       inittime: forecast_reference_time
       validtime: time
   name: HRRR
-  path: /pscratch/sd/t/timothys/nested-eagle/v0/baselines/hrrr-forecasts-vs-hrrr-analysis/lam.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.240h.nc
+  path: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/lam.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.240h.nc
   projection:
     a: 6371229
     b: 6371229
@@ -31,7 +31,7 @@ leadtimes:
   stop: 48
 meta:
   grids: "{{ meta.workdir }}/grids"
-  workdir: /pscratch/sd/t/timothys/nested-eagle/v0/baselines/hrrr-forecasts-vs-hrrr-analysis/obs-val
+  workdir: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/obs-val
 paths:
   grids:
     forecast: "{{ meta.grids }}/forecast"
