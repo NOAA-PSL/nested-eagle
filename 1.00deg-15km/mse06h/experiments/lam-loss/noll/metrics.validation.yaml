@@ -1,11 +1,11 @@
 # location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
-forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/noll-win4320/inference-validation
+forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/noll/inference-validation
 lead_time: 240h
 
 # this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
 verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.zarr
 trim_edge: [15, 16, 15, 16]
-output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/noll-win4320/inference-validation
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/lam-loss/noll/inference-validation
 
 model_type: nested-lam
 lam_index: 59040

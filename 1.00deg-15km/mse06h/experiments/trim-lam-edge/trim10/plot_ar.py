@@ -15,7 +15,7 @@ if __name__ == "__main__":
         tf="2023-03-10T00",
         mode="figure",
         trim_lam_edge=[10, 11, 10, 11],
-        name="csmswt-trim10-win4320",
+        name="csmswt-trim10",
     )
     main(
         read_path=f"{inference_dir}/2023-03-09T00.240h.nc",
@@ -24,5 +24,5 @@ if __name__ == "__main__":
         tf="2023-03-19T00",
         mode="movie",
         trim_lam_edge=[10, 11, 10, 11],
-        name="csmswt-trim10-win4320",
+        name="csmswt-trim10",
     )
