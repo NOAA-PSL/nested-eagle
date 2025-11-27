@@ -16,7 +16,7 @@ forecast:
       inittime: forecast_reference_time
       validtime: time
   name: Nested-EAGLE
-  path: /pscratch/sd/t/timothys/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation/nested-global.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.240h.nc
+  path: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation/nested-global.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.240h.nc
   projection:
     proj: latlon
 leadtimes:
@@ -25,7 +25,7 @@ leadtimes:
   stop: 240
 meta:
   grids: "{{ meta.workdir }}/grids"
-  workdir: /pscratch/sd/t/timothys/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation/obs-val-global
+  workdir: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation/obs-val-global
 paths:
   grids:
     forecast: "{{ meta.grids }}/forecast"

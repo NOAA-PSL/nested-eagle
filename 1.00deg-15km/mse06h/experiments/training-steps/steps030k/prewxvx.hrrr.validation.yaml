@@ -1,5 +1,5 @@
-forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation
-output_path: ${SCRATCH}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-validation
+forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation
 model_type: nested-lam
 lam_index: 64220
 lcc_info:

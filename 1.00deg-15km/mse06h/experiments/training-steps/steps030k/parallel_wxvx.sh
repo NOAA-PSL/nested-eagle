@@ -2,7 +2,7 @@
 
 # --- Configuration ---
 # Set the directory containing your YAML files
-export cycles_dir="/global/homes/t/timothys/nested-eagle/v0/10percent/csmswt/inference/trim10-ll10-win4320/cycles-wxvx"
+export cycles_dir="/global/homes/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/cycles-wxvx"
 
 # --- Define the work to be done for a single file ---
 yamlfile=$1 # Use a local variable for the input path

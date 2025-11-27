@@ -234,7 +234,7 @@ hardware:
   paths:
     data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/
+    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/
   files:
     graph: graph.latentx2.spongex1.12knn.pt
     npz_file: latentx2.spongex1.combined.sorted.npz
@@ -242,7 +242,7 @@ hardware:
     global_dataset: gfs.zarr
 
 model:
-  num_channels: 512 #???
+  num_channels: 512
   processor:
     window_size: 4320
   bounding:

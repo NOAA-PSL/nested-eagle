@@ -46,7 +46,7 @@ def reshape_dataset(xds):
 def open_dataset(t0: pd.Timestamp):
 
     st0 = t0.strftime("%Y-%m-%dT%H")
-    data_dir = "/pscratch/sd/t/timothys/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-precip"
+    data_dir = "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-precip"
     xds = xr.open_dataset(
         f"{data_dir}/{st0}.48h.lam.nc",
         decode_timedelta=True,
@@ -114,7 +114,7 @@ def create_container(xds, t0):
 if __name__ == "__main__":
 
     setup_simple_log()
-    store_path = "/pscratch/sd/t/timothys/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/inference-precip/nested-eagle.conus15km.precip.zarr"
+    store_path = "/pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-precip/nested-eagle.conus15km.precip.zarr"
 
 
     all_t0 = pd.date_range("2023-02-01T00", "2024-01-30T00", freq="6h")
