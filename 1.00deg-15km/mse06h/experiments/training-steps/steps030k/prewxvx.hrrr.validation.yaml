@@ -3,8 +3,8 @@ output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-st
 model_type: nested-lam
 lam_index: 64220
 lcc_info:
-  n_y: 338
-  n_x: 190
+  n_x: 338
+  n_y: 190
 vars_of_interest:
   - t2m
   - gh

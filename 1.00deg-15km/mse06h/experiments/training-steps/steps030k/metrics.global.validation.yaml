@@ -3,8 +3,15 @@ forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation
 lead_time: 240h
 
+# this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
 model_type: nested-global
 lam_index: 64220
+verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/gfs.zarr
+trim_edge: [10, 11, 10, 11]
+lcc_info:
+  n_x: 338
+  n_y: 190
+
 anemoi_reference_dataset_kwargs:
   cutout:
     - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.zarr
@@ -12,9 +19,6 @@ anemoi_reference_dataset_kwargs:
     - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.zarr
   adjust: all
   min_distance_km: 0
-lcc_info:
-  n_x: 338
-  n_y: 190
 
 forecast_regrid_kwargs:
   target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/global_one_degree.nc
@@ -38,7 +42,6 @@ vars_of_interest:
 
 levels:
   - 200
-  - 250
   - 500
   - 850
 
