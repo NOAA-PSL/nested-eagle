@@ -6,8 +6,8 @@ lead_time: 240h
 verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.analysis.zarr
 trim_edge: [15, 16, 15, 16]
 lcc_info:
-  n_x: 348
-  n_y: 200
+  n_x: 328
+  n_y: 180
 trim_forecast_edge: [15, 16, 15, 16]
 output_path: ${SCRATCH}/nested-eagle/v0/10percent/mmgt/base/inference-validation/trimmed
 
