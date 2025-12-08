@@ -1,0 +1,44 @@
+forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/mmgt/tnbd/inference
+output_path: ${SCRATCH}/nested-eagle/v0/10percent/mmgt/tnbd/inference/figures
+lead_time: 240h
+start_date: 2023-03-09T00
+end_date: 2023-03-10T00
+
+verification_dataset_kwargs:
+  cutout:
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.zarr
+      trim_edge: [15, 16, 15, 16]
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.zarr
+  adjust: all
+  min_distance_km: 0
+
+model_type: nested
+lam_index: 59040
+lcc_info:
+  n_x: 328
+  n_y: 180
+target_name: "GFS/HRRR fhr00"
+model_name: "Nested-EAGLE 1\u00b0/15km"
+vars_of_interest:
+  - t2m
+  - sh2
+  - 10m_wind_speed
+  - accum_tp
+  - t
+  - q
+
+levels:
+  - 850
+
+fig_kwargs:
+  width: 10
+  height: 7
+  projection: Orthographic
+  projection_kwargs:
+    central_longitude: -120
+    central_latitude: 20
+
+per_variable_kwargs:
+  t:
+    vmin: -20
+    vmax: 20
