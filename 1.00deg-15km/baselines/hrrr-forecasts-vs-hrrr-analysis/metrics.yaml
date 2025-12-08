@@ -7,6 +7,9 @@ from_anemoi: False
 verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.analysis.zarr
 trim_edge: [15, 16, 15, 16]
 trim_forecast_edge: [15, 16, 15, 16]
+lcc_info:
+  n_x: 328
+  n_y: 180
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trimmed
 
 model_type: lam

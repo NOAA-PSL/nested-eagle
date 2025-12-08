@@ -8,6 +8,9 @@ verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.analys
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-hrrr-analysis
 
 model_type: lam
+lcc_info:
+  n_x: 359
+  n_y: 211
 vars_of_interest:
   - gh
   - u
