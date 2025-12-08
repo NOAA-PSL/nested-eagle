@@ -2,18 +2,6 @@
 ## Deterministic training with single step (6h) MSE loss
 
 
-## Reorg TODO:
-* rename dirs in baselines notebooks
-
-Then everything will be consistent, and remaining items include things that are
-actual developments, like
-* make sure all the eagle importable stuff is migrated to eagle-tools
-* figure out what to do about wxvx in parallel... or if we just have to roll our
-  own, especially if we want to do bilinear interpolation here
-* update the environment...
-
-# ---
-
 Main features obtained from experimentation:
 * Graph Encoder: 12 KNN determines graph encoding
 * Graph Decoder: 3 KNN determines graph decoding
