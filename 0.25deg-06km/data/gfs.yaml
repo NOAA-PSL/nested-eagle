@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/anemoi-house/gfs/0.25-degree/data/gfs.zarr
-  cache: ${SCRATCH}/anemoi-house/gfs/0.25-degree/data/cache
-  logs: ${SCRATCH}/anemoi-house/gfs/0.25-degree/data/logs-finalize
+  zarr: ${SCRATCH}/nested-eagle/0.25deg-06km/data/gfs.zarr
+  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/data/cache
+  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/data/logs-finalize
 
 multisource:
 

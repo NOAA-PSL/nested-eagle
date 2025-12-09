@@ -2,9 +2,9 @@ mover:
   name: mpidatamover
 
 directories:
-  zarr: ${SCRATCH}/nested-eagle/v1/data/hrrr.zarr
-  cache: ${SCRATCH}/nested-eagle/v1/data/cache/hrrr
-  logs: ${SCRATCH}/nested-eagle/v1/data/logs/hrrr
+  zarr: ${SCRATCH}/nested-eagle/0.25deg-06km/data/hrrr.zarr
+  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/data/cache/hrrr
+  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/data/logs/hrrr
 
 multisource:
 
@@ -83,11 +83,11 @@ multisource:
 
 transforms:
   horizontal_regrid:
-    target_grid_path: ${SCRATCH}/nested-eagle/v1/data/hrrr_06km.nc
+    target_grid_path: ${SCRATCH}/nested-eagle/0.25deg-06km/data/hrrr_06km.nc
     regridder_kwargs:
       method: conservative
       reuse_weights: True
-      filename: ${SCRATCH}/nested-eagle/v1/data/conservative_weights_hrrr.nc
+      filename: ${SCRATCH}/nested-eagle/0.25deg-06km/data/conservative_weights_hrrr.nc
 
 target:
   name: anemoi

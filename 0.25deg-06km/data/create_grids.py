@@ -6,7 +6,7 @@ from ufs2arco.transforms.horizontal_regrid import get_bounds
 
 if __name__ == "__main__":
 
-    store_dir = f"{os.getenv('SCRATCH')}/nested-eagle/v1/data"
+    store_dir = f"{os.getenv('SCRATCH')}/nested-eagle/0.25deg-06km/data"
     if not os.path.isdir(store_dir):
         os.makedirs(store_dir)
 
