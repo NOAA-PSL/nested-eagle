@@ -1,0 +1,56 @@
+mover:
+  name: mpidatamover
+
+directories:
+  zarr: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
+  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/cache
+  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/logs
+
+source:
+  name: gfs_archive
+  t0:
+    start: 2023-02-01T06
+    end: 2024-01-31T18
+    freq: 54h
+
+  fhr:
+    start: 0
+    end: 240
+    step: 6
+
+  variables:
+    # 3D Prognostic
+    - gh
+    - u
+    - v
+    - w
+    - t
+    - q
+    # 2D Prognostic
+    - sp
+    - u10
+    - v10
+    - t2m
+    - t_surface
+    - sh2
+    # Diagnostic
+    - u80
+    - v80
+
+  levels:
+    - 200
+    - 500
+    - 850
+
+  slices:
+    sel:
+      latitude: [89.9, -89.9]
+
+target:
+  name: base
+  chunks:
+    t0: 1
+    fhr: 1
+    level: -1
+    latitude: -1
+    longitude: -1
