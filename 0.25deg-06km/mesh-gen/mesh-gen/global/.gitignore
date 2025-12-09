@@ -1,0 +1,4 @@
+*.txt
+*.npz
+*.pt
+figures*/
