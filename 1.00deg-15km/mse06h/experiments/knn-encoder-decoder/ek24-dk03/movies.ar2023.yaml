@@ -1,6 +1,6 @@
 forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/knn-encoder-decoder/ek24-dk03/inference
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/knn-encoder-decoder/ek24-dk03/inference/movies
-lead_time: 240h
+lead_time: 240
 start_date: 2023-03-09T00
 end_date: 2023-03-19T00
 

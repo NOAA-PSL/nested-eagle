@@ -1,7 +1,7 @@
 # location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
 forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse06h/experiments/training-steps/steps030k/inference-validation
-lead_time: 240h
+lead_time: 240
 
 # this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
 model_type: nested-lam

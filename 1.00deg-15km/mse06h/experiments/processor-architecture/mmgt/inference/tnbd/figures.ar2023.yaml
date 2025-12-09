@@ -1,6 +1,6 @@
 forecast_path: ${SCRATCH}/nested-eagle/v0/10percent/mmgt/tnbd/inference
 output_path: ${SCRATCH}/nested-eagle/v0/10percent/mmgt/tnbd/inference/figures
-lead_time: 240h
+lead_time: 240
 start_date: 2023-03-09T00
 end_date: 2023-03-10T00
 
