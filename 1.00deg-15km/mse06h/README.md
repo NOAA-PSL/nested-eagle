@@ -13,23 +13,33 @@ Main features obtained from experimentation:
 * LAM loss fraction = 0.1
 * "Empirical" loss weights per-variable group, essentially following AIFS
 * Trimmed LAM edge = (10, 11, 10, 11) grid cells  (~150km)
+* weight decay = 0.01 (doesn't matter though)
 
 For some empirical justification of these choices, see the `experiments/`
 directory.
 
 The config for the current "best" model is a soft link to the appropriate yaml
 and inference-evaluation directory within the experiments.
+Right now it is the same setup as in:
+
+* `experiments/training-steps/steps030k.yaml`
+* `experiments/regularization/wp01.yaml`
+
+except the latter has the updated package versions that are used here.
+
 
 ## Package stack
 
 ```
-pip install anemoi-datasets==0.5.23 anemoi-graphs==0.5.2 anemoi-models==0.5.0 anemoi-training==0.4.0
-pip install 'earthkit-data<0.14.0'
-
-conda uninstall mlflow mlflow-skinny mlflow-ui
-
-pip install mlflow azureml-core azureml-mlflow
+eagle-tools==0.5.0
+ufs2arco==0.18.0
 ```
+
+See eagle-tools
+[installation instructions](https://github.com/NOAA-PSL/eagle-tools?tab=readme-ov-file#installation)
+for more details on other packages, and
+the anemoi versions are as defined by the submodules
+[here](https://github.com/timothyas/aneml).
 
 ## Installation on Perlmutter
 
