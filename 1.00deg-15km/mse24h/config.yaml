@@ -1,9 +1,8 @@
 defaults:
 - data: zarr
 - dataloader: native_grid
-- datamodule: single
 - diagnostics: evaluation
-- hardware: slurm
+- system: slurm
 - graph: encoder_decoder_only
 - model: transformer
 - training: stretched
@@ -75,10 +74,10 @@ dataloader:
   dataset:
     cutout:
       # LAM
-      - dataset: ${hardware.paths.data}/${hardware.files.lam_dataset}
+      - dataset: ${system.input.lam_dataset}
         trim_edge: [10, 11, 10, 11]
       # Global forcing
-      - dataset: ${hardware.paths.data}/${hardware.files.global_dataset}
+      - dataset: ${system.input.global_dataset}
     adjust: all
     min_distance_km: 0
   training:
@@ -99,14 +98,10 @@ diagnostics:
     mlflow:
       enabled: True
       offline: True
-      authentication: False
       log_model: False
       tracking_uri: null
-      experiment_name: 'Nested-EAGLE-v0'
+      experiment_name: '1.00deg-15km mse24h regularization'
       project_name: 'Nested-EAGLE'
-      use_azure: False
-      aml_resource_group: "PSL-PMP-ML"
-      aml_workspace_name: "psl-ml-workspace"
       system: False
       terminal: True
       run_name: null # If set to null, the run name will be the a random UUID
@@ -116,8 +111,8 @@ diagnostics:
       http_max_retries: 35
   plot:
     frequency:
-      batch: 30_000
-      epoch: 5
+      batch: 300_000
+      epoch: 500
     parameters: []
     precip_and_related_fields: []
     callbacks: []
@@ -133,7 +128,7 @@ graph:
     hidden:
       node_builder:
         _target_: anemoi.graphs.nodes.NPZFileNodes
-        npz_file: ${hardware.paths.graph}/${hardware.files.npz_file}
+        npz_file: ${system.input.latent_mesh}
         lat_key: lat
         lon_key: lon
   edges:
@@ -184,21 +179,20 @@ graph:
     - _target_: anemoi.graphs.processors.SortEdgeIndexByTargetNodes
       descending: True  # optional, defaults to true
 
-hardware:
-  num_gpus_per_model: 2
-  paths:
-    data: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data
-    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/
-    output: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/rollout/csmswt/from-steps030k/
-    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/v0/10percent/csmswt/logoffline-trim10-ll10-win4320/checkpoint/${training.fork_run_id}/
-  files:
-    graph: graph.latentx2.spongex1.12knn.pt
-    npz_file: latentx2.spongex1.combined.sorted.npz
-    lam_dataset: hrrr.zarr
-    global_dataset: gfs.zarr
+system:
+  hardware:
+    num_gpus_per_model: 2
+  input:
+    lam_dataset: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data/hrrr.zarr
+    global_dataset: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data/gfs.zarr
+    graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/graph.latentx2.spongex1.12knn.pt
+    latent_mesh: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/latentx2.spongex1.combined.sorted.npz
+
+  output:
+    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse24h/base/
 
 model:
-  num_channels: 512 #???
+  num_channels: 512
   processor:
     window_size: 4320
   bounding:
@@ -220,25 +214,30 @@ model:
       - q_1000
 
 training:
-  fork_run_id: 8db170cad8834450ad8a264fbd2fdf77
-  load_weights_only: True
-  transfer_learning: True
   max_steps: 5760
   max_epochs: 8
-  # LR = local_rate * num_gpus_per_node * num_nodes / gpus_per_model
-  #    = local_rate * total_gpus / gpus_per_model
-  lr:
-    warmup: 0
-    rate: 1.875e-8
-    iterations: ${training.max_steps}
-    min: 3e-7
+  fork_run_id: ba209201e3aa49fea8d89a16dd5f30bc
+  load_weights_only: True
   rollout:
-    start: 1
     epoch_increment: 2
     max: 4
+    start: 1
+
+  # LR = local_rate * num_gpus_per_node * num_nodes / gpus_per_model
+  #    = local_rate * total_gpus / gpus_per_model
+  optimizer:
+    _target_: torch.optim.AdamW
+    betas: [0.9, 0.95]
+    weight_decay: 0.01
+  lr:
+    warmup: 100
+    rate: 8e-7
+    iterations: ${training.max_steps}
+    min: 3e-7
   variable_groups:
     default: sfc
-    pl: [gh, u, v, w, t, q]
+    pl:
+      param: [gh, u, v, w, t, q]
   metrics:
     - gh_500
     - t_850
