@@ -109,6 +109,7 @@ diagnostics:
       expand_hyperparams: # Which keys in hyperparams to expand
         - config
       http_max_retries: 35
+      save_dir: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/regularization/wp01/logs/mlflow
   plot:
     frequency:
       batch: 300_000
@@ -187,9 +188,12 @@ system:
     global_dataset: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data/gfs.zarr
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/graph.latentx2.spongex1.12knn.pt
     latent_mesh: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/latentx2.spongex1.combined.sorted.npz
+    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/regularization/wp01/checkpoint/ba209201e3aa49fea8d89a16dd5f30bc/last.ckpt
 
   output:
     root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse24h/base/
+    logs:
+      mlflow: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/regularization/wp01/logs/mlflow
 
 model:
   num_channels: 512
