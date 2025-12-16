@@ -23,7 +23,7 @@ anemoi_reference_dataset_kwargs:
   min_distance_km: 0
 
 forecast_regrid_kwargs:
-  target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/global_one_degree.nc
+  target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/global_one_degree_with_mask.nc
   regridder_kwargs:
     method: conservative_normed
     reuse_weights: True
@@ -31,10 +31,13 @@ forecast_regrid_kwargs:
 vars_of_interest:
   - u10
   - v10
+  - u
+  - v
 
 levels:
-  - 500
   - 850
+
+fhr_select: [0, 6, 12, 24, 48, 120, 240]
 
 start_date: 2023-02-01T06
 end_date: 2024-01-20T12
