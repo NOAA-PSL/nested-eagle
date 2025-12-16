@@ -81,7 +81,7 @@ dataloader:
     adjust: all
     min_distance_km: 0
   training:
-    start: 2015-02-01
+    start: 2021-03-23
     end: 2023-01-31
   validation:
     start: 2023-02-01
@@ -100,7 +100,7 @@ diagnostics:
       offline: True
       log_model: False
       tracking_uri: null
-      experiment_name: '1.00deg-15km mse24h regularization'
+      experiment_name: '1.00deg-15km mse24h data-years'
       project_name: 'Nested-EAGLE'
       system: False
       terminal: True
@@ -191,7 +191,7 @@ system:
     warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/regularization/wp01/checkpoint/ba209201e3aa49fea8d89a16dd5f30bc/last.ckpt
 
   output:
-    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse24h/base/
+    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse24h/experiments/data-years/operational/
     logs:
       mlflow: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mse06h/experiments/regularization/wp01/logs/mlflow
 
@@ -219,11 +219,11 @@ model:
 
 training:
   max_steps: 5760
-  max_epochs: 8
+  max_epochs: null
   fork_run_id: ba209201e3aa49fea8d89a16dd5f30bc
   load_weights_only: True
   rollout:
-    epoch_increment: 2
+    epoch_increment: 8
     max: 4
     start: 1
 
