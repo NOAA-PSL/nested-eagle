@@ -1,0 +1,52 @@
+# location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
+forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse24h/experiments/data-years/operational/inference-validation
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mse24h/experiments/data-years/operational/inference-validation
+lead_time: 240
+use_mpi: True
+
+# this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
+model_type: nested-global
+lam_index: 64220
+verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/gfs.zarr
+trim_edge: [10, 11, 10, 11]
+lcc_info:
+  n_x: 338
+  n_y: 190
+
+anemoi_reference_dataset_kwargs:
+  cutout:
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/hrrr.zarr
+      trim_edge: [10, 11, 10, 11]
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/data/gfs.zarr
+  adjust: all
+  min_distance_km: 0
+
+forecast_regrid_kwargs:
+  target_grid_path: ${SCRATCH}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/global_one_degree_with_mask.nc
+  regridder_kwargs:
+    method: conservative_normed
+    reuse_weights: True
+    filename: ${SCRATCH}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/conservative_lam_to_global.nc
+
+vars_of_interest:
+  - gh
+  - u
+  - v
+  - w
+  - t
+  - q
+  - sp
+  - u10
+  - v10
+  - t2m
+  - sh2
+
+levels:
+  - 200
+  - 500
+  - 850
+
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h
