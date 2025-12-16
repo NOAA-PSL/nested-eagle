@@ -9,7 +9,7 @@
 #SBATCH --qos=regular
 #SBATCH --account=m4718
 #SBATCH --constraint=gpu
-#SBATCH -t 12:00:00
+#SBATCH -t 4:00:00
 
 conda activate eagle
 srun --jobid $SLURM_JOB_ID ~/anemoi-house/slurm2ddp.sh anemoi-training train --config-name=config

@@ -1,5 +1,7 @@
 # Custom additions
 
+eagle-logs/
+submit*.sh
 **/slurm/
 **/outputs/
 **/training/outputs/
@@ -9,6 +11,7 @@
 *.npz
 *.tar.gz
 *Untitled*.ipynb
+*Copy*.ipynb
 *.pdf
 *.jpeg
 
