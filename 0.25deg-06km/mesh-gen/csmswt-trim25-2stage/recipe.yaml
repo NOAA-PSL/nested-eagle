@@ -4,9 +4,9 @@ nodes:
       _target_: anemoi.graphs.nodes.AnemoiDatasetNodes
       dataset:
         cutout:
-          - dataset: /pscratch/sd/t/timothys/nested-eagle/v1/data/hrrr.zarr
+          - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/hrrr.zarr
             trim_edge: [25, 26, 25, 26]
-          - dataset: /pscratch/sd/t/timothys/nested-eagle/v1/data/gfs.zarr
+          - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/gfs.zarr
         adjust: all
         min_distance_km: 0
     attributes:
@@ -24,27 +24,28 @@ nodes:
         _target_: anemoi.graphs.nodes.attributes.MaskedPlanarAreaWeights
         mask_node_attr_name: cutout_mask
         norm: unit-max
-
-  hidden:
+  hidden_1:
     node_builder:
       _target_: anemoi.graphs.nodes.NPZFileNodes
-      npz_file: "latentx2.spongex1.combined.sorted.npz"
+      npz_file: "latentx2.stage1.spongex1.combined.sorted.npz"
+      lat_key: lat
+      lon_key: lon
+  hidden_2:
+    node_builder:
+      _target_: anemoi.graphs.nodes.NPZFileNodes
+      npz_file: "latentx4.stage2.spongex1.combined.sorted.npz"
       lat_key: lat
       lon_key: lon
 
 edges:
-# Encoder
+# Encoder 1
 - source_name: data
-  target_name: hidden
+  target_name: hidden_1
   edge_builders:
   - _target_: anemoi.graphs.edges.KNNEdges
-    num_nearest_neighbours: 8
+    num_nearest_neighbours: 12
     source_mask_attr_name: null
     target_mask_attr_name: null
-#  - _target_: anemoi.graphs.edges.CutOffEdges
-#    cutoff_factor: 0.6
-#    source_mask_attr_name: null
-#    target_mask_attr_name: null
   attributes:
     edge_length:
       _target_: anemoi.graphs.edges.attributes.EdgeLength
@@ -52,8 +53,25 @@ edges:
     edge_dirs:
       _target_: anemoi.graphs.edges.attributes.EdgeDirection
       norm: unit-std
+
+# Encoder 2
+- source_name: hidden_1
+  target_name: hidden_2
+  edge_builders:
+  - _target_: anemoi.graphs.edges.KNNEdges
+    num_nearest_neighbours: 12
+    source_mask_attr_name: null
+    target_mask_attr_name: null
+  attributes:
+    edge_length:
+      _target_: anemoi.graphs.edges.attributes.EdgeLength
+      norm: unit-max
+    edge_dirs:
+      _target_: anemoi.graphs.edges.attributes.EdgeDirection
+      norm: unit-std
+
 # Decoder
-- source_name: hidden
+- source_name: hidden_2
   target_name: data
   edge_builders:
   - _target_: anemoi.graphs.edges.KNNEdges
