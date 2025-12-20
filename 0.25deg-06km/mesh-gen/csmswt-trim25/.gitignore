@@ -1,0 +1,5 @@
+figures*/
+knn*.yaml
+graph*.pt
+inspection*.txt
+run.sh
