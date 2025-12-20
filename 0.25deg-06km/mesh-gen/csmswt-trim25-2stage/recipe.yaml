@@ -5,10 +5,10 @@ nodes:
       dataset:
         cutout:
           - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/hrrr.zarr
-            trim_edge: [25, 26, 25, 26]
+            trim_edge: [25, 24, 25, 26]
           - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/gfs.zarr
         adjust: all
-        min_distance_km: 0
+        min_distance_km: 6
     attributes:
       cutout_mask:
         _target_: anemoi.graphs.nodes.attributes.CutOutMask
