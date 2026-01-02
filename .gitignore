@@ -2,6 +2,7 @@
 
 eagle-logs/
 submit*.sh
+*.out
 **/slurm/
 **/outputs/
 **/training/outputs/
