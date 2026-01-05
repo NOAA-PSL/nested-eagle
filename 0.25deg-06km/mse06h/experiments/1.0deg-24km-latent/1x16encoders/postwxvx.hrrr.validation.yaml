@@ -1,0 +1,22 @@
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h
+
+leadtimes:
+  start: 0
+  end: 240
+  step: 6
+
+stat_prefix: point_stat_nested-eagle
+variable_prefixes:
+  - sp_surface
+  - 2t_heightAboveGround_0002
+  - u_10m_heightAboveGround_0010
+  - v_10m_heightAboveGround_0010
+  - gh_isobaricInhPa_0500
+  - t_isobaricInhPa_0850
+  - q_isobaricInhPa_0850
+  - u_isobaricInhPa_0250
+  - v_isobaricInhPa_0250
+
+work_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation/obs-val
