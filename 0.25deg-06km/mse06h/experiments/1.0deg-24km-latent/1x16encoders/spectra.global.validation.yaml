@@ -1,0 +1,41 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation
+lead_time: 240
+use_mpi: True
+
+min_delta_lat: .0075
+model_type: nested-global
+lam_index: 407040
+lcc_info:
+  n_x: 848
+  n_y: 480
+
+anemoi_reference_dataset_kwargs:
+  cutout:
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/hrrr.zarr
+      trim_edge: [25, 24, 25, 26]
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/gfs.zarr
+  adjust: all
+  min_distance_km: 6
+
+forecast_regrid_kwargs:
+  target_grid_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mesh-gen/csmswt-trim25/global_quarter_degree_with_mask.nc
+  regridder_kwargs:
+    method: conservative_normed
+    reuse_weights: True
+    filename: ${SCRATCH}/nested-eagle/0.25deg-06km/mesh-gen/csmswt-trim25/conservative_lam_to_global.nc
+
+vars_of_interest:
+  - u10
+  - v10
+  - u
+  - v
+
+levels:
+  - 850
+
+fhr_select: [0, 6, 12, 24, 48, 120, 240]
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h

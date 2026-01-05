@@ -1,0 +1,26 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation
+lead_time: 240
+use_mpi: True
+
+min_delta_lat: 0.0018
+model_type: nested-lam
+lam_index: 407040
+lcc_info:
+  n_x: 848
+  n_y: 480
+
+vars_of_interest:
+  - u10
+  - v10
+  - u
+  - v
+
+levels:
+  - 850
+
+fhr_select: [0, 6, 12, 24, 48, 120, 240]
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h
