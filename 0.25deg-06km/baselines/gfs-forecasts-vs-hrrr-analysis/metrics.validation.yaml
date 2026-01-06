@@ -1,0 +1,37 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-hrrr-analysis/gfs.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-hrrr-analysis/trim25
+lead_time: 48
+from_anemoi: False
+use_mpi: True
+
+verification_dataset_path: ${SCRATCH}/nested-eagle/0.25deg-06km/data/hrrr.zarr
+trim_edge: [25, 24, 25, 26]
+trim_forecast_edge: [25, 24, 25, 26]
+lcc_info:
+  n_x: 848
+  n_y: 480
+
+model_type: lam
+keep_spatial_t0: True
+vars_of_interest:
+  - gh
+  - u
+  - v
+  - w
+  - t
+  - q
+  - sp
+  - u10
+  - v10
+  - t2m
+  - sh2
+
+levels:
+  - 250
+  - 500
+  - 850
+
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h

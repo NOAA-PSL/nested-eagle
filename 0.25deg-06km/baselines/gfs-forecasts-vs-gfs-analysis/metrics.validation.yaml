@@ -1,13 +1,10 @@
-# location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis
 lead_time: 240
 from_anemoi: False
 use_mpi: True
 
-# this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
 verification_dataset_path: ${SCRATCH}/nested-eagle/0.25deg-06km/data/gfs.zarr
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis
-log_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/logs/metrics
 
 model_type: global
 vars_of_interest:
