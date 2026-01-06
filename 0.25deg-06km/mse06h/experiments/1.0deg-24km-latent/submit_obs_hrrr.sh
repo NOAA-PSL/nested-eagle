@@ -14,11 +14,12 @@ set -e
 experiment=1x16encoders
 domain=hrrr
 n_procs=256
+n_procs_eagle=16
 
 # Step 1: prewxvx
 echo "Starting prewxvx..."
 conda activate eagle
-srun -n 32 eagle-tools prewxvx "${experiment}/prewxvx.${domain}.validation.yaml"
+srun -n ${n_procs_eagle} eagle-tools prewxvx "${experiment}/prewxvx.${domain}.validation.yaml"
 conda deactivate
 echo "prewxvx completed successfully."
 
