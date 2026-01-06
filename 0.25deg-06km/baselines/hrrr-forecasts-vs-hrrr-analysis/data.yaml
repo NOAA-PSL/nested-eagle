@@ -1,0 +1,67 @@
+mover:
+  name: mpidatamover
+
+directories:
+  zarr: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/hrrr-forecasts-vs-hrrr-analysis/hrrr.forecasts.zarr
+  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/hrrr-forecasts-vs-hrrr-analysis/cache
+  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/hrrr-forecasts-vs-hrrr-analysis/logs
+
+source:
+  name: aws_hrrr_archive
+  t0:
+    start: 2023-02-01T06
+    end: 2024-01-31T18
+    freq: 54h
+
+  fhr:
+    start: 0
+    end: 48
+    step: 6
+
+  variables:
+    # 3D Prognostic
+    - gh
+    - u
+    - v
+    - w
+    - t
+    - q
+    # 2D Prognostic
+    - sp
+    - u10
+    - v10
+    - t2m
+    - t_surface
+    - sh2
+    # Diagnostic
+    - u80
+    - v80
+
+  levels:
+    - 200
+    - 250
+    - 500
+    - 850
+
+transforms:
+  rotate_vectors:
+    vector_pairs:
+      - ["u", "v"]
+      - ["u10", "v10"]
+      - ["u80", "v80"]
+
+  horizontal_regrid:
+    target_grid_path: ${SCRATCH}/nested-eagle/0.25deg-06km/data/hrrr_06km.nc
+    regridder_kwargs:
+      method: conservative
+      reuse_weights: True
+      filename: ${SCRATCH}/nested-eagle/0.25deg-06km/data/conservative_weights_hrrr.nc
+
+target:
+  name: base
+  chunks:
+    t0: 1
+    fhr: 1
+    level: -1
+    y: -1
+    x: -1
