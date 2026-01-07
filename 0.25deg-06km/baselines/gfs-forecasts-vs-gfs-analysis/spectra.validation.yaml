@@ -1,6 +1,7 @@
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-vs-gfs-analysis/gfs.forecasts.zarr
 output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-vs-gfs-analysis
 lead_time: 240
+use_anemoi: False
 use_mpi: True
 
 min_delta_lat: .0075
