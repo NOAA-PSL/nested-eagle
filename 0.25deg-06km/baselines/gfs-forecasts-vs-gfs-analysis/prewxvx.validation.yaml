@@ -1,0 +1,27 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis
+lead_time: 240
+from_anemoi: False
+use_mpi: True
+
+model_type: global
+
+vars_of_interest:
+  - gh
+  - u
+  - v
+  - t
+  - q
+  - sp
+  - u10
+  - v10
+  - t2m
+
+levels:
+  - 250
+  - 500
+  - 850
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h
