@@ -1,16 +1,15 @@
-# location of forecasts, with filename convention {t0}.{lead_time}.nc, lead_time is defined below
 forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/hrrr.forecasts.zarr
+output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10
 lead_time: 48
 from_anemoi: False
+use_mpi: True
 
-# this will eventually have to change if we want to read multiple datasets, e.g. forecast and analysis
-verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.analysis.zarr
-trim_edge: [15, 16, 15, 16]
-trim_forecast_edge: [15, 16, 15, 16]
+verification_dataset_path: ${SCRATCH}/nested-eagle/1.00deg-15km/data/hrrr.zarr
+trim_edge: [10, 11, 10, 11]
+trim_forecast_edge: [10, 11, 10, 11]
 lcc_info:
-  n_x: 328
-  n_y: 180
-output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trimmed
+  n_x: 338
+  n_y: 190
 
 model_type: lam
 keep_spatial_t0: True
@@ -28,7 +27,7 @@ vars_of_interest:
   - sh2
 
 levels:
-  - 200
+  - 250
   - 500
   - 850
 
