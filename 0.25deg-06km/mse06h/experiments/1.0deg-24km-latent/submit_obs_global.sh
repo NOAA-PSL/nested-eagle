@@ -7,7 +7,7 @@
 #SBATCH --qos=regular
 #SBATCH --account=m4718
 #SBATCH --constraint=cpu
-#SBATCH -t 08:00:00
+#SBATCH -t 12:00:00
 
 set -e
 
