@@ -1,6 +1,6 @@
 forecast_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/hrrr.forecasts.zarr
 output_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10
-log_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10
+log_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10/eagle-logs/prewxvx
 
 lead_time: 48
 from_anemoi: False

@@ -2,6 +2,7 @@
 
 eagle-logs/
 submit*.sh
+log.wxvx.*.out*
 *.out
 *.err
 **/slurm/
