@@ -7,7 +7,7 @@ leadtimes:
   end: 240
   step: 6
 
-stat_prefix: point_stat_gfs
+stat_prefix: point_stat_hrrr
 variable_prefixes:
   - sp_surface
   - 2t_heightAboveGround_0002
@@ -15,7 +15,8 @@ variable_prefixes:
   - v_10m_heightAboveGround_0010
   - gh_isobaricInhPa_0500
   - t_isobaricInhPa_0850
+  - q_isobaricInhPa_0850
   - u_isobaricInhPa_0250
   - v_isobaricInhPa_0250
 
-work_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/gfs-forecasts-vs-hrrr-analysis/obs-val
+work_path: ${SCRATCH}/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10/obs-val

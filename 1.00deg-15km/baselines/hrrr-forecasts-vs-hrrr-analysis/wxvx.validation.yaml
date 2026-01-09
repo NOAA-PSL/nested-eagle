@@ -1,5 +1,4 @@
-baseline:
-  compare: false
+truth:
   name: PREPBUFR
   type: point
   url: https://noaa-reanalyses-pds.s3.amazonaws.com/observations/reanalysis/conv/prepbufr/{{ yyyymmdd[:4] }}/{{ yyyymmdd[4:6] }}/prepbufr/gdas.{{ yyyymmdd }}.t{{ hh }}z.prepbufr.nr
@@ -16,7 +15,7 @@ forecast:
       inittime: forecast_reference_time
       validtime: time
   name: HRRR
-  path: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/lam.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.240h.nc
+  path: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10/lam.{{ yyyymmdd[:4] }}-{{ yyyymmdd[4:6] }}-{{ yyyymmdd[6:8] }}T{{ hh }}.48h.nc
   projection:
     a: 6371229
     b: 6371229
@@ -31,11 +30,11 @@ leadtimes:
   stop: 48
 meta:
   grids: "{{ meta.workdir }}/grids"
-  workdir: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/obs-val
+  workdir: /pscratch/sd/t/timothys/nested-eagle/1.00deg-15km/baselines/hrrr-forecasts-vs-hrrr-analysis/trim10/obs-val
 paths:
   grids:
     forecast: "{{ meta.grids }}/forecast"
-  obs: "{{ meta.workdir }}/obs"
+  obs: /pscratch/sd/t/timothys/nested-eagle/observations/g104/obs
   run: "{{ meta.workdir }}/run"
 regrid:
   method: BILIN
@@ -56,6 +55,10 @@ variables:
     level_type: isobaricInhPa
     levels: [850]
     name: t
+  q:
+    level_type: isobaricInhPa
+    levels: [850]
+    name: q
   u:
     level_type: isobaricInhPa
     levels: [250]

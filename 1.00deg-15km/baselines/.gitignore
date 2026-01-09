@@ -1,5 +1,7 @@
 **/*.err
 **/*.out
+log.*.out.2
+log.*.out.3
 cycles-wxvx
 input.txt
 feb-may/
