@@ -189,21 +189,19 @@ system:
     global_dataset: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/data/gfs.zarr
     graph: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/graph.latentx2.spongex1.12knn.pt
     latent_mesh: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/latentx2.spongex1.combined.sorted.npz
-    truncation: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/truncate-full-knn36/gauss_weight-data_to_down.npz
-    truncation_inv: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/mesh-gen/csmswt-trim10/truncate-full-knn36/gauss_weight-down_to_data.npz
+    truncation: null
+    truncation_inv: null
 
   output:
-    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/crps06h/experiments/base/o32/
+    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/crps06h/experiments/base/no-truncation/
 
 model:
   num_channels: 512
   processor:
     window_size: 4320
   residual:
-    _target_: anemoi.models.layers.residual.TruncatedConnection
-    truncation_down_file_path: ${system.input.truncation}
-    truncation_up_file_path: ${system.input.truncation_inv}
-    row_normalize: True
+    _target_: anemoi.models.layers.residual.SkipConnection
+    step: -1
   bounding:
     - _target_: anemoi.models.layers.bounding.ReluBounding #[0, infinity)
       variables:
@@ -223,7 +221,6 @@ model:
       - q_1000
 
 training:
-  run_id: f99f857ab6954250b71ea96487ee49f3
   multistep_input: 1
   ensemble_size_per_device: 1
   max_steps: 30_000
