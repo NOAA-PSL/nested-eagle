@@ -27,7 +27,7 @@ vars_of_interest:
   - sh2
 
 levels:
-  - 200
+  - 250
   - 500
   - 850
 
