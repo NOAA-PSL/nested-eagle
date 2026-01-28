@@ -1,5 +1,5 @@
-checkpoint_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/checkpoint/e3b33522b329414dbde852df25400e14/inference-last.ckpt
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse06h/experiments/1.0deg-24km-latent/1x16encoders/inference-validation
+checkpoint_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse24h/experiments/data-years/all/checkpoint/5f35e4b5cf674d029efd84b5f46aab80/inference-last.ckpt
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse24h/experiments/data-years/all/inference-validation
 lead_time: 240
 input_dataset_kwargs:
   cutout:

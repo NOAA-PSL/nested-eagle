@@ -1,0 +1,30 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse24h/experiments/data-years/all/inference-validation
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/mse24h/experiments/data-years/all/inference-validation
+lead_time: 240
+use_mpi: True
+
+model_type: nested-lam
+lam_index: 407040
+lcc_info:
+  n_x: 848
+  n_y: 480
+
+vars_of_interest:
+  - gh
+  - u
+  - v
+  - t
+  - q
+  - sp
+  - u10
+  - v10
+  - t2m
+
+levels:
+  - 250
+  - 500
+  - 850
+
+start_date: 2023-02-01T06
+end_date: 2024-01-20T12
+freq: 54h
