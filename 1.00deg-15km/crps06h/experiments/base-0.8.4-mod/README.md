@@ -14,3 +14,6 @@ which was incorporated into `training-0.9.0` `models-0.12.0` and `graphs-0.8.4`.
 * `o32/`: uses truncation of the skip connection to o32 resolution. It blows up
   during inference.
 * `no-truncation/`: does not blow up, but carries around unphysical noise.
+
+Note that these models will work by checking out anemoi-core commit `20b2da6`,
+and then using even a recent version of anemoi-inference, e.g. 0.9.0.
