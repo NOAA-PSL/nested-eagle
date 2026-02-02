@@ -64,7 +64,7 @@ data:
               - lsm
 
 dataloader:
-  prefetch_factor: 1
+  prefetch_factor: 2
   batch_size:
     training: 1
     validation: 1
@@ -201,13 +201,13 @@ system:
     truncation_inv: null
 
   output:
-    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/crps06h/experiments/base/debug/
+    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/1.00deg-15km/crps06h/experiments/base/noise32/
 
 model:
   noise_injector:
     _target_: anemoi.models.layers.ensemble.SimpleNoiseConditioning
     noise_std: 1
-    noise_channels_dim: 4
+    noise_channels_dim: 32
   num_channels: 512
   processor:
     window_size: 4320
@@ -242,7 +242,7 @@ model:
 training:
   multistep_input: 1
   ensemble_size_per_device: 1
-  max_steps: 10
+  max_steps: 30_000
   # LR = local_rate * num_gpus_per_node * num_nodes / gpus_per_model
   #    = local_rate * total_gpus / gpus_per_model
   optimizer:

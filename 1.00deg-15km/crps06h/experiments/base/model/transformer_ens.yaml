@@ -9,15 +9,6 @@ model:
 
 noise_injector:
   _target_: anemoi.models.layers.ensemble.NoiseConditioning
-  noise_std: 1
-  noise_channels_dim: 4
-  noise_mlp_hidden_dim: 32
-  noise_matrix: null
-  row_normalize_noise_matrix: false
-  autocast: false
-  layer_kernels:
-    Activation:
-      _target_: torch.nn.GELU
 
 layer_kernels:
   # The layer_kernels can be adjusted per model component, but are defined here for convenience.
