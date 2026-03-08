@@ -10,8 +10,8 @@ source:
   name: aws_hrrr_archive
   t0:
     start: 2023-02-01T06
-    end: 2024-01-31T18
-    freq: 54h
+    end: 2025-01-31T18
+    freq: 18h
 
   fhr:
     start: 0
@@ -23,7 +23,6 @@ source:
     - gh
     - u
     - v
-    - w
     - t
     - q
     # 2D Prognostic
@@ -31,14 +30,10 @@ source:
     - u10
     - v10
     - t2m
-    - t_surface
     - sh2
-    # Diagnostic
-    - u80
-    - v80
 
   levels:
-    - 200
+    - 100
     - 250
     - 500
     - 850
@@ -48,7 +43,6 @@ transforms:
     vector_pairs:
       - ["u", "v"]
       - ["u10", "v10"]
-      - ["u80", "v80"]
 
   horizontal_regrid:
     target_grid_path: ${SCRATCH}/nested-eagle/0.25deg-06km/data/hrrr_06km.nc
