@@ -236,7 +236,7 @@ system:
     truncation: null
     truncation_inv: null
     loss_matrices_path: null
-    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/0.25deg-06km/production/gfs-only/stage1b/checkpoint/???/last.ckpt
+    warm_start: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/0.25deg-06km/production/gfs-only/stage1b/checkpoint/97c64e829b3b4895bed107d414467684/last.ckpt
     global_dataset: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/0.25deg-06km/data/gfs.zarr
   hardware:
     accelerator: auto
@@ -423,7 +423,7 @@ training:
           nodes_attribute_name: area_weight
           norm: unit-sum
   run_id: null
-  fork_run_id: ???
+  fork_run_id: 97c64e829b3b4895bed107d414467684
   load_weights_only: true
   transfer_learning: false
   deterministic: false

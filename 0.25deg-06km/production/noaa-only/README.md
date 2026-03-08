@@ -9,7 +9,7 @@
 
 * Stage 1a: 30 hours (including restarting)
 * Stage 1b: 6 hours 20 minutes
-* Stage 1c:
+* Stage 1c: 8 hours 45 minutes
 
 ## Memory
 

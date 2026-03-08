@@ -8,5 +8,5 @@
 ## Walltime
 
 * Stage 1a: 18 hours
-* Stage 1b:
+* Stage 1b: 2 hours 50 minutes
 * Stage 1c:
