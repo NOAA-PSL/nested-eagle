@@ -1,6 +1,6 @@
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/gfs.forecasts.zarr
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/obs-metrics
-lead_time: 240
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/baselines/gfs-forecasts-vs-gfs-analysis/obs-metrics-validation
+lead_time: 360
 from_anemoi: False
 use_mpi: True
 
@@ -18,6 +18,7 @@ vars_of_interest:
   - sh2
 
 levels:
+  - 100
   - 250
   - 500
   - 850
@@ -45,4 +46,4 @@ subregions:
 
 start_date: 2023-02-01T06
 end_date: 2024-01-20T12
-freq: 54h
+freq: 18h
