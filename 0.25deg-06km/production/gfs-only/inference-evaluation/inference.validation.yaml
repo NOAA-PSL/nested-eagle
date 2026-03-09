@@ -1,5 +1,5 @@
-checkpoint_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/checkpoint/7678b6c540124950a6f8d27ac237572e/inference-last.ckpt
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
+checkpoint_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-only/stage1c/checkpoint/f4e0d27427984baa8d51a3780a69d86f/inference-last.ckpt
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-only/stage1c/inference-validation
 lead_time: 360
 input_dataset_kwargs:
   cutout:
