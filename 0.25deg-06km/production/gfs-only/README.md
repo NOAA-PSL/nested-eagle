@@ -9,4 +9,4 @@
 
 * Stage 1a: 18 hours
 * Stage 1b: 2 hours 50 minutes
-* Stage 1c:
+* Stage 1c: 5 hours 5 minutes
