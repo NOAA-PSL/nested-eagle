@@ -1,8 +1,9 @@
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation/obs-metrics-18h
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
 lead_time: 360
 use_mpi: True
 
+min_delta_lat: .0075
 model_type: nested-global
 lam_index: 407040
 lcc_info:
@@ -25,47 +26,15 @@ forecast_regrid_kwargs:
     filename: ${SCRATCH}/nested-eagle/0.25deg-06km/mesh-gen/csmswt-trim25/conservative_lam_to_global.nc
 
 vars_of_interest:
-  - gh
-  - u
-  - v
-  - t
-  - q
-  - sp
   - u10
   - v10
-  - t2m
-  - sh2
-  # quantities that obs-metrics can derive
-  - wind_speed
-  - 10m_wind_speed
+  - u
+  - v
 
 levels:
-  - 100
-  - 250
-  - 500
   - 850
 
-temporal_window: 30min
-max_qc_value: 2
-
-subregions:
-  conus:
-    longitude: [225, 310]
-    latitude: [20, 55]
-  europe:
-    longitude: [-25, 65]
-    latitude: [35, 75]
-  tropics:
-    latitude: [-20, 20]
-  northern_hemisphere:
-    latitude: [20, 80]
-  southern_hemisphere:
-    latitude: [-80, -20]
-  polar_north:
-    latitude: [60, 90]
-  polar_south:
-    latitude: [-90, -60]
-
+fhr_select: [0, 6, 12, 24, 48, 120, 240]
 
 start_date: 2023-02-01T06
 end_date: 2024-01-16T18

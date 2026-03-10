@@ -1,8 +1,9 @@
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation/obs-metrics-18h
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
 lead_time: 360
 use_mpi: True
 
+min_delta_lat: 0.0018
 model_type: nested-lam
 lam_index: 407040
 lcc_info:
@@ -10,28 +11,15 @@ lcc_info:
   n_y: 480
 
 vars_of_interest:
-  - gh
-  - u
-  - v
-  - t
-  - q
-  - sp
   - u10
   - v10
-  - t2m
-  - sh2
-  # quantities that obs-metrics can derive
-  - wind_speed
-  - 10m_wind_speed
+  - u
+  - v
 
 levels:
-  - 100
-  - 250
-  - 500
   - 850
 
-temporal_window: 30min
-max_qc_value: 2
+fhr_select: [0, 6, 12, 24, 48, 120, 240]
 
 start_date: 2023-02-01T06
 end_date: 2024-01-16T18
