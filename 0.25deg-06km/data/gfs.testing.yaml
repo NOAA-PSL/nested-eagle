@@ -3,8 +3,8 @@ mover:
 
 directories:
   zarr: ${SCRATCH}/nested-eagle/0.25deg-06km/data/testing/gfs.zarr
-  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/data/testing/cache
-  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/data/testing/logs
+  cache: ${SCRATCH}/nested-eagle/0.25deg-06km/data/testing/cache/gfs
+  logs: ${SCRATCH}/nested-eagle/0.25deg-06km/data/testing/logs/gfs
 
 multisource:
 
