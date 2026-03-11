@@ -11,7 +11,7 @@ source:
   t0:
     start: 2023-02-01T06
     end: 2025-01-31T18
-    freq: 18h
+    freq: 30h
 
   fhr:
     start: 0

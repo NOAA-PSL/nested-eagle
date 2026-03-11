@@ -16,6 +16,9 @@ vars_of_interest:
   - v10
   - t2m
   - sh2
+  # quantities that obs-metrics can derive
+  - wind_speed
+  - 10m_wind_speed
 
 levels:
   - 100
@@ -45,5 +48,5 @@ subregions:
     latitude: [-90, -60]
 
 start_date: 2023-02-01T06
-end_date: 2024-01-20T12
-freq: 18h
+end_date: 2024-01-31T18
+freq: 30h
