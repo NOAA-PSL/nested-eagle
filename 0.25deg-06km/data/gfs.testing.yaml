@@ -12,7 +12,7 @@ multisource:
   - source:
       name: gfs_archive
       t0:
-        start: 2023-02-01T06
+        start: 2023-02-01T00
         end: 2025-02-15T18
         freq: 6h
 
@@ -65,7 +65,7 @@ multisource:
   - source:
       name: gfs_archive
       t0:
-        start: 2023-02-01T00
+        start: 2023-01-31T18
         end: 2025-02-15T12
         freq: 6h
 
