@@ -205,7 +205,7 @@ diagnostics:
       offline: true
       authentication: false
       tracking_uri: null
-      experiment_name: 0.25deg-06km production noaa-only stage1a
+      experiment_name: 0.25deg-06km production gfs-hrrr stage1a
       project_name: Nested-EAGLE
       system: true
       terminal: true
@@ -226,7 +226,7 @@ diagnostics:
   print_memory_summary: false
 system:
   output:
-    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/0.25deg-06km/production/noaa-only/stage1a/
+    root: ${oc.decode:${oc.env:SCRATCH}}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1a/
     logs:
       root: logs
       wandb: wandb

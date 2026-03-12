@@ -1,5 +1,5 @@
-forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
-output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/noaa-only/stage1c/inference-validation
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-validation
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-validation
 lead_time: 360
 use_mpi: True
 
