@@ -1,5 +1,6 @@
 forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-testing
 output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-testing/obs-metrics
+log_path: eagle-logs/obs_metrics/global-test
 lead_time: 360
 use_mpi: True
 
