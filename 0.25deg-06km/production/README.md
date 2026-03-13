@@ -9,7 +9,8 @@ conda run -n eagle pip install --no-cache-dir --no-build-isolation flash-attn==2
 ```
 
 However, there are some complications here.
-These models were developed using
+First, the anemoi-datasets version is somewhere between 0.5.28 and 0.5.29.
+More importantly though, these models were developed using
 [this feature branch](https://github.com/timothyas/anemoi-core/tree/feature/simple-noise).
 This branch sits on top of:
 
@@ -20,7 +21,7 @@ anemoi-training==0.9.0
 ```
 
 which are the versions listed in `environment.yaml`.
-However, that feature branch includes some bugfixes that have not yet been
+However, some of the that feature branch includes some bugfixes that have not yet been
 released to pypi at time of writing this note.
 The fix is only important for transfer learning or forking, which we do here
 in the multi-stage training.
