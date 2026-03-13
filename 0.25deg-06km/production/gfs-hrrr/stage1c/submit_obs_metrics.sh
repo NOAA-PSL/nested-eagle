@@ -9,7 +9,7 @@
 #SBATCH --qos=regular
 #SBATCH --account=m4718
 #SBATCH --constraint=cpu
-#SBATCH -t 6:00:00
+#SBATCH -t 3:00:00
 
 conda activate eagle
 echo "Running for HRRR over validation period"
