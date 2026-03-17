@@ -1,0 +1,19 @@
+checkpoint_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/checkpoint/7678b6c540124950a6f8d27ac237572e/inference-last.ckpt
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-precip-validation
+lead_time: 48
+input_dataset_kwargs:
+  cutout:
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/testing/hrrr.zarr
+      trim_edge: [25, 24, 25, 26]
+    - dataset: /pscratch/sd/t/timothys/nested-eagle/0.25deg-06km/data/testing/gfs.zarr
+  adjust: all
+  min_distance_km: 6
+
+vars_of_interest:
+  - accum_tp
+
+start_date: 2023-02-01T06
+end_date: 2024-01-29T18
+freq: 6h
+
+use_mpi: true
