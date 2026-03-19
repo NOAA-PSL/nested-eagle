@@ -1,6 +1,8 @@
 # Nested-EAGLE
 ## Production Grade Models
 
+
+### Inference Environment
 To create an environment that should work with this setup,
 
 ```
@@ -8,7 +10,22 @@ conda env create -f environment.yaml
 conda run -n eagle pip install --no-cache-dir --no-build-isolation flash-attn==2.7.4.post1
 ```
 
-However, there are some complications here.
+However, there are some complications here that will make this less
+straightforward for training and development.
+
+### Training and Development Environment
+
+For a development environment that more closely matches what I used to train
+this model, use the following environment (note the module load command is
+specific to Perlmutter):
+
+```
+module load nccl/2.21.5
+conda env create -f exact-environment.yaml
+conda run -n eagle pip install --no-cache-dir --no-build-isolation flash-attn==2.7.4.post1
+```
+
+The reason for these different environments is as follows.
 First, the anemoi-datasets version is somewhere between 0.5.28 and 0.5.29.
 More importantly though, these models were developed using
 [this feature branch](https://github.com/timothyas/anemoi-core/tree/feature/simple-noise).
@@ -31,6 +48,9 @@ My feature branch includes
 but
 [this PR](https://github.com/ecmwf/anemoi-core/pull/867)
 also appears to fix the problem, and it was merged into the codebase.
+
+Note that anemoi-models is also updated in the feature branch, but these changes
+only impact stochastic models with a CRPS loss.
 
 All that said, hopefully these versions should work for inference using the
 existing checkpoint.

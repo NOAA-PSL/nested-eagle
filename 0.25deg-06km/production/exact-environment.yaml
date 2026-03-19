@@ -1,0 +1,21 @@
+name: eagle
+channels:
+  - conda-forge
+  - default
+dependencies:
+  - python=3.12
+  - ufs2arco=0.19.0
+  - pip
+  - pip:
+    - anemoi-datasets @ git+https://git@github.com/ecmwf/anemoi-datasets.git@8816a8a2c78c3a459c5c8a343b2f4bf9bf12d278
+    - anemoi-graphs==0.8.4
+    - anemoi-inference==0.9.0
+    - anemoi-models @ git+https://git@github.com/timothyas/anemoi-core.git@ba245742ff72c4f8b61eff307a2dd5c156369d36
+    - anemoi-training @ git+https://git@github.com/timothyas/anemoi-core.git@ba245742ff72c4f8b61eff307a2dd5c156369d36
+    - anemoi-transform @ git+https://git@github.com/ecmwf/anemoi-transform.git@eaaeef5a114d701470a8e95f28f7d4d0a537a99a
+    - anemoi-utils @ git+https://git@github.com/ecmwf/anemoi-utils.git@b22444f37a127aea950ae2777a880db1e5911820
+    - eagle-tools==0.17.1
+    - mlflow-skinny==2.22.4
+    - torch==2.6.0
+    - torchvision==0.21.0
+    - xmovie @ git+https://github.com/timothyas/xmovie.git@21f4c541ba46b88bb14e98c52f1d57f0d61c0508
