@@ -1,0 +1,147 @@
+forecast_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/inference-validation
+output_path: ${SCRATCH}/nested-eagle/0.25deg-06km/production/gfs-hrrr/stage1c/nrt-test
+lead_time: 360
+
+model_type: nested-lam
+lam_index: 407040
+lcc_info:
+  n_x: 848
+  n_y: 480
+
+start_date: 2023-02-01T06
+end_date: 2023-02-01T06
+freq: 30h
+
+# Nice Things
+rename_curvilinear_coords_to_latlon: false
+rename_to_longnames: true
+attributes:
+  dataset:
+    description: Output from NOAA's Nested-EAGLE forecast model over the Contiguous United States
+    horizontal_resolution: 6km
+    grid_projection: Lambert Conic Conformal (LCC)
+    version: "1.0"
+  variables:
+    # Coordinates
+    time:
+      standard_name: time
+      long_name: Valid Time
+      axis: T
+    level:
+      standard_name: air_pressure
+      long_name: Pressure Level
+      units: hPa
+      axis: Z
+      positive: down
+    latitude:
+      standard_name: latitude
+      long_name: Latitude
+      units: degrees_north
+      axis: Y
+    longitude:
+      standard_name: longitude
+      long_name: Longitude
+      units: degrees_east
+      axis: X
+    x:
+      standard_name: projection_x_coordinate
+      long_name: x-coordinate in Lambert Conformal Projection
+      axis: X
+    y:
+      standard_name: projection_y_coordinate
+      long_name: y-coordinate in Lambert Conformal Projection
+      axis: Y
+
+    # 3D pressure level variables
+    geopotential_height:
+      standard_name: geopotential_height
+      long_name: Geopotential Height
+      units: m
+      variable_type: prognostic
+    zonal_wind:
+      standard_name: eastward_wind
+      long_name: Zonal Wind
+      description: rotated to point eastward, not orthogonal to LCC grid cells
+      units: m s-1
+      variable_type: prognostic
+    meridional_wind:
+      standard_name: northward_wind
+      long_name: Meridional Wind
+      description: rotated to point northward, not orthogonal to LCC grid cells
+      units: m s-1
+      variable_type: prognostic
+    vertical_velocity:
+      standard_name: lagrangian_tendency_of_air_pressure
+      long_name: Vertical Velocity
+      units: Pa s-1
+      variable_type: prognostic
+    temperature:
+      standard_name: air_temperature
+      long_name: Air Temperature
+      units: K
+      variable_type: prognostic
+    specific_humidity:
+      standard_name: specific_humidity
+      long_name: Specific Humidity
+      units: kg kg-1
+      variable_type: prognostic
+
+    # Surface and near surface variables
+    surface_pressure:
+      standard_name: surface_air_pressure
+      long_name: Surface Pressure
+      units: Pa
+      variable_type: prognostic
+    surface_temperature:
+      standard_name: surface_temperature
+      long_name: Surface Temperature
+      units: K
+      variable_type: prognostic
+    10m_zonal_wind:
+      standard_name: eastward_wind
+      long_name: 10m Zonal Wind
+      description: rotated to point eastward, not orthogonal to LCC grid cells
+      units: m s-1
+      height: 10 m
+      variable_type: prognostic
+    10m_meridional_wind:
+      standard_name: northward_wind
+      long_name: 10m Meridional Wind
+      description: rotated to point northward, not orthogonal to LCC grid cells
+      units: m s-1
+      height: 10 m
+      variable_type: prognostic
+    2m_temperature:
+      standard_name: air_temperature
+      long_name: 2m Air Temperature
+      units: K
+      height: 2 m
+      variable_type: prognostic
+    2m_specific_humidity:
+      standard_name: specific_humidity
+      long_name: 2m Specific Humidity
+      units: kg kg-1
+      height: 2 m
+      variable_type: prognostic
+
+    # Diagnostic fields
+    80m_zonal_wind:
+      standard_name: eastward_wind
+      long_name: 80m Zonal Wind
+      description: rotated to point eastward, not orthogonal to LCC grid cells
+      units: m s-1
+      height: 80 m
+      variable_type: diagnostic
+    80m_meridional_wind:
+      standard_name: northward_wind
+      long_name: 80m Meridional Wind
+      description: rotated to point northward, not orthogonal to LCC grid cells
+      units: m s-1
+      height: 80 m
+      variable_type: diagnostic
+    total_precipitation_6hr:
+      standard_name: precipitation_amount
+      long_name: 6-hourly Total Precipitation
+      units: kg m-2
+      cell_methods: "time: sum (interval: 6 hours)"
+      variable_type: diagnostic
