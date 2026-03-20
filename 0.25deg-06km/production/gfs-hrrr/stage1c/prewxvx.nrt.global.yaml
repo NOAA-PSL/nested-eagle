@@ -34,7 +34,7 @@ attributes:
     description: Output from NOAA's Nested-EAGLE forecast model over the globe
     regrid: "The 6km resolution data over the Contiguous United States subdomain was conservatively regridded to 0.25 degree resolution, matching the resolution of the rest of the model"
     horizontal_resolution: "0.25 degree"
-    grid_projection: Lambert Conic Conformal (LCC)
+    grid_projection: Latitude-Longitude
     version: "1.0"
   variables:
     # Coordinates
